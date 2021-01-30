@@ -2,7 +2,25 @@
 
 namespace Sacados.Core.Items {
 
-    public class ItemStack {
+    public struct ItemStack {
+
+        #region Static
+
+        /// <summary>
+        /// Empty ItemStack used to give a default value
+        /// </summary>
+        public static readonly ItemStack Empty = new ItemStack(null, 0);
+
+        #endregion
+
+        #region Is Properties
+
+        /// <summary>
+        /// Determines if the ItemStack is empty (if the Item is null or it's StackSize = 0)
+        /// </summary>
+        public bool IsEmpty => (Item == null) || (StackSize == 0);
+
+        #endregion
 
         /// <summary>
         /// Item of the ItemStack
@@ -19,7 +37,7 @@ namespace Sacados.Core.Items {
         /// <summary>
         /// Creates an ItemStack with the specified Item and StackSize
         /// </summary>
-        public ItemStack(Item item, uint stackSize) {
+        public ItemStack(Item item, uint stackSize) : this() {
 
             // Save the Item and the StackSize
             Item = item;
@@ -30,8 +48,25 @@ namespace Sacados.Core.Items {
         /// <summary>
         /// Creates an ItemStack with the specified Item and it's MaxStackSize as the StackSize
         /// </summary>
-        /// <param name="item"></param>
-        public ItemStack(Item item) : this(item, item.MaxStackSize) { }
+        public ItemStack(Item item) : this(item, (item == null) ? 0 : item.MaxStackSize) { }
+
+        #endregion
+
+        #region Is Methods
+
+        /// <summary>
+        /// Determines if the ItemStacks are the same
+        /// </summary>
+        public bool IsSameAs(ItemStack itemStack) {
+            return itemStack.Item == Item;
+        }
+
+        /// <summary>
+        /// Determines if the ItemStacks are the same or if the specified item stack is empty
+        /// </summary>
+        public bool IsSameOrEmpty(ItemStack itemStack) {
+            return itemStack.IsEmpty || IsSameAs(itemStack);
+        }
 
         #endregion
 
@@ -45,7 +80,7 @@ namespace Sacados.Core.Items {
         public static void WriteItemStack(this NetworkWriter writer, ItemStack itemStack) {
 
             // If the ItemStack is empty
-            if (itemStack.IsEmpty()) {
+            if (itemStack.IsEmpty) {
 
                 // Write an empty Item
                 writer.WriteString(null);
@@ -70,7 +105,7 @@ namespace Sacados.Core.Items {
             Item item = reader.ReadItem();
 
             // If the item is null (it means that the itemstack is empty)
-            if (item == null) return null;
+            if (item == null) return ItemStack.Empty;
 
             // Create and return the itemstack
             return new ItemStack(item, reader.ReadUInt32());
