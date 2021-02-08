@@ -41,6 +41,8 @@ namespace Sacados.Core.Slots {
         [Server]
         public virtual ItemStack Set(ItemStack itemStack) {
 
+            // TODO: Fix with empty ItemStack
+
             // If the ItemStack is empty or isn't filtered
             if (itemStack.IsEmpty || !IsFiltered(itemStack)) return itemStack;
 
