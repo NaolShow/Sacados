@@ -1,4 +1,5 @@
-﻿using Sacados.Core.Containers;
+﻿using Mirror;
+using Sacados.Core.Containers;
 using Sacados.Core.Items;
 using UnityEditor;
 using UnityEngine;
@@ -33,9 +34,15 @@ namespace Sacados.Core.Editor {
 
         public void ProcessSelectedObject() {
 
-            // If we are not in play mode
+            // If the user is not in play mode
             if (!EditorApplication.isPlaying) {
                 EditorGUILayout.HelpBox("You must be in Play Mode in order to see a container content", MessageType.Info);
+                return;
+            }
+
+            // If the user is not a client or a server
+            if (!NetworkClient.active && !NetworkServer.active) {
+                EditorGUILayout.HelpBox("You must be the client or the server to see a container content", MessageType.Info);
                 return;
             }
 
@@ -137,44 +144,49 @@ namespace Sacados.Core.Editor {
 
             }
 
-            #region Management
-            GUILayout.BeginHorizontal(GUI.skin.box);
+            // If the user is the server
+            if (NetworkServer.active) {
 
-            // If the user wants to set the item
-            if (GUILayout.Button("S")) {
+                #region Management
+                GUILayout.BeginHorizontal(GUI.skin.box);
 
-                // Set the slot ItemStack with max stack size
-                Container.Slots[index].Set(new ItemStack(Item.Get(ItemIDToGive)));
+                // If the user wants to set the item
+                if (GUILayout.Button("S")) {
+
+                    // Set the slot ItemStack with max stack size
+                    Container.Slots[index].Set(new ItemStack(Item.Get(ItemIDToGive)));
+
+                }
+                // If the user wants to increase the stack size by one
+                else if (GUILayout.Button("+")) {
+
+                    // Set the item stack size to 1
+                    itemStack.StackSize = 1;
+                    // Give one item
+                    Container.Slots[index].Give(itemStack);
+
+                }
+                // If the user wants to decrease the stack size by one
+                else if (GUILayout.Button("-")) {
+
+                    // Set the item stack size to 1
+                    itemStack.StackSize = 1;
+                    // Take one item
+                    Container.Slots[index].Take(itemStack);
+
+                }
+                // If the user wants to clear the slot
+                else if (GUILayout.Button("C")) {
+
+                    // Clear the slot
+                    Container.ItemStacks[index] = ItemStack.Empty;
+
+                }
+
+                GUILayout.EndHorizontal();
+                #endregion
 
             }
-            // If the user wants to increase the stack size by one
-            else if (GUILayout.Button("+")) {
-
-                // Set the item stack size to 1
-                itemStack.StackSize = 1;
-                // Give one item
-                Container.Slots[index].Give(itemStack);
-
-            }
-            // If the user wants to decrease the stack size by one
-            else if (GUILayout.Button("-")) {
-
-                // Set the item stack size to 1
-                itemStack.StackSize = 1;
-                // Take one item
-                Container.Slots[index].Take(itemStack);
-
-            }
-            // If the user wants to clear the slot
-            else if (GUILayout.Button("C")) {
-
-                // Clear the slot
-                Container.ItemStacks[index] = ItemStack.Empty;
-
-            }
-
-            GUILayout.EndHorizontal();
-            #endregion
 
             GUILayout.EndVertical();
         }
