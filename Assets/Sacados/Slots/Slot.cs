@@ -1,9 +1,9 @@
 ﻿using Mirror;
-using Sacados.Core.Containers;
-using Sacados.Core.Items;
+using Sacados.Containers;
+using Sacados.Items;
 using System;
 
-namespace Sacados.Core.Slots {
+namespace Sacados.Slots {
 
     public class Slot {
 
@@ -14,7 +14,10 @@ namespace Sacados.Core.Slots {
 
         #endregion
 
-        public virtual ItemStack ItemStack {
+        /// <summary>
+        /// The slot's ItemStack, when setting an ItemStack to this variable, no checks are done
+        /// </summary>
+        protected virtual ItemStack ItemStack {
             get { return Container.ItemStacks[Index]; }
             set { Container.ItemStacks[Index] = value; }
         }
@@ -36,15 +39,22 @@ namespace Sacados.Core.Slots {
         #region Management
 
         /// <summary>
-        /// Sets the ItemStack to the slot and returns the surplus (if there is)
+        /// Sets the ItemStack (and overwrites the current slot ItemStack) to the slot and returns the surplus (if there is)
         /// </summary>
         [Server]
         public virtual ItemStack Set(ItemStack itemStack) {
 
-            // TODO: Fix with empty ItemStack
+            // If the ItemStack is empty
+            if (itemStack.IsEmpty) {
 
-            // If the ItemStack is empty or isn't filtered
-            if (itemStack.IsEmpty || !IsFiltered(itemStack)) return itemStack;
+                // Set the slot ItemStack to an empty one
+                ItemStack = ItemStack.Empty;
+
+                return itemStack;
+            }
+
+            // If the itemstack is not filtered
+            if (!IsFiltered(itemStack)) return itemStack;
 
             // Determines the transfer size
             uint transferSize = Math.Min(itemStack.StackSize, itemStack.Item.MaxStackSize);

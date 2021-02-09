@@ -1,10 +1,10 @@
 ﻿using Mirror;
-using Sacados.Core.Containers;
-using Sacados.Core.Items;
+using Sacados.Containers;
+using Sacados.Items;
 using UnityEditor;
 using UnityEngine;
 
-namespace Sacados.Core.Editor {
+namespace Sacados.Editor {
 
     public class ContainerEditorWindow : EditorWindow {
 

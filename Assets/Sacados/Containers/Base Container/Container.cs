@@ -1,7 +1,7 @@
 ﻿using Mirror;
-using Sacados.Core.Items;
+using Sacados.Items;
 
-namespace Sacados.Core.Containers {
+namespace Sacados.Containers {
 
     public partial class Container : NetworkBehaviour {
 

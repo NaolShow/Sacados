@@ -1,6 +1,6 @@
 ﻿using Mirror;
 
-namespace Sacados.Core.Items {
+namespace Sacados.Items {
 
     public struct ItemStack {
 

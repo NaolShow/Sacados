@@ -1,11 +1,11 @@
 ﻿#if IS_SERVER
 
 using Mirror;
-using Sacados.Core.Items;
-using Sacados.Core.Slots;
+using Sacados.Items;
+using Sacados.Slots;
 using System.Collections.Generic;
 
-namespace Sacados.Core.Containers {
+namespace Sacados.Containers {
 
     public partial class Container : NetworkBehaviour {
 

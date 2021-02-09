@@ -1,10 +1,10 @@
 ﻿#if UNITY_EDITOR
 
-using Sacados.Core.Containers;
+using Sacados.Containers;
 using UnityEditor;
 using UnityEngine;
 
-namespace Sacados.Core.Editor {
+namespace Sacados.Editor {
 
     [CustomEditor(typeof(Container))]
     public class ContainerInspector : UnityEditor.Editor {
