@@ -4,10 +4,11 @@ using Mirror;
 using Sacados.Items;
 using Sacados.Slots;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Sacados.Containers {
 
-    public partial class Container : NetworkBehaviour {
+    public abstract partial class Container : NetworkBehaviour {
 
         /// <summary>
         /// List containing the container's Slots
@@ -15,13 +16,14 @@ namespace Sacados.Containers {
         public List<Slot> Slots { get; protected set; }
 
         /// <summary>
-        /// Initializes the container with the specified slots count
+        /// Initializes the container with the specified slots count<br/>
+        /// Returns true if the container was not already initialized
         /// </summary>
         [Server]
-        protected virtual Container Initialize(int slotsCount) {
+        public bool Initialize(int slotsCount) {
 
             // If the container is already initialized
-            if (Slots != null) return this;
+            if (Slots != null) return false;
 
             // Initialize the slots list
             Slots = new List<Slot>(slotsCount);
@@ -29,23 +31,19 @@ namespace Sacados.Containers {
             // Add null ItemStacks to the list
             ItemStacks.AddRange(new ItemStack[slotsCount]);
 
-            // Loop through the slots
-            for (int i = 0; i < slotsCount; i++) {
+            // Create the slots
+            CreateSlots();
 
-                // Add a basic slot
-                Slots.Add(new Slot(this, i));
-
-            }
-
-            return this;
+            return true;
 
         }
 
-        #region Management
+        #region Give and Take
 
         /// <summary>
         /// Gives the ItemStack to the container and returns the surplus (if there is)
         /// </summary>
+        [Server]
         public virtual ItemStack Give(ItemStack itemStack) {
 
             // Loop through the slots
@@ -65,6 +63,7 @@ namespace Sacados.Containers {
         /// <summary>
         /// Takes the ItemStack from the container and returns the remaining (if there is)
         /// </summary>
+        [Server]
         public virtual ItemStack Take(ItemStack itemStack) {
 
             // Loop through the slots
@@ -80,6 +79,17 @@ namespace Sacados.Containers {
             return itemStack;
 
         }
+
+        #endregion
+
+        #region Virtual methods
+
+        /// <summary>
+        /// Creates the server's slots (override it to implement your own slots)<br/>
+        /// Called from the <see cref="Initialize(int)"/> method
+        /// </summary>
+        [Server]
+        protected virtual void CreateSlots() => Debug.LogWarning($"[Sacados] Method '{nameof(CreateSlots)} is not overrided in the container '{name}' !", this);
 
         #endregion
 

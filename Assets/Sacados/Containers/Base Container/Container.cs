@@ -3,7 +3,7 @@ using Sacados.Items;
 
 namespace Sacados.Containers {
 
-    public partial class Container : NetworkBehaviour {
+    public abstract partial class Container : NetworkBehaviour {
 
         /// <summary>
         /// List containing the container's ItemStacks
