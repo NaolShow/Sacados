@@ -50,6 +50,9 @@ namespace Sacados.Slots {
                 // Set the slot ItemStack to an empty one
                 ItemStack = ItemStack.Empty;
 
+                // Call the on SlotEmpty method
+                Container.OnSlotEmpty(this);
+
                 return itemStack;
             }
 
@@ -68,6 +71,14 @@ namespace Sacados.Slots {
 
             // Set the slot ItemStack
             ItemStack = copiedItemStack;
+
+            // If the slot is now full
+            if (copiedItemStack.StackSize == copiedItemStack.Item.MaxStackSize) {
+
+                // Call the on SlotOverflow method
+                Container.OnSlotOverflow(this);
+
+            }
 
             return itemStack;
 
@@ -107,6 +118,14 @@ namespace Sacados.Slots {
             // Set the slot ItemStack
             ItemStack = slotItemStack;
 
+            // If the slot is now full
+            if (slotItemStack.StackSize == slotItemStack.Item.MaxStackSize) {
+
+                // Call the on SlotOverflow method
+                Container.OnSlotOverflow(this);
+
+            }
+
             return itemStack;
 
         }
@@ -135,6 +154,14 @@ namespace Sacados.Slots {
 
             // Save the slot ItemStack
             ItemStack = slotItemStack;
+
+            // If the slot is now empty
+            if (slotItemStack.IsEmpty) {
+
+                // Call the on SlotEmpty method
+                Container.OnSlotEmpty(this);
+
+            }
 
             return itemStack;
 
