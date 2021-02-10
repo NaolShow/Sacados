@@ -56,7 +56,7 @@ namespace Sacados.Editor {
             Container = Selection.activeGameObject.GetComponent<Container>();
 
             // If the container is not initialized
-            if (Container == null || Container.Slots == null) {
+            if (Container == null || (Container.ItemStacks == null && Container.Slots == null)) {
                 EditorGUILayout.HelpBox("The selected object is not a container or it is not initialized", MessageType.Error);
                 return;
             }
@@ -68,32 +68,37 @@ namespace Sacados.Editor {
 
         public void DisplayItemStacks() {
 
-            #region Item Give Field
-            GUILayout.BeginHorizontal(GUI.skin.box);
+            // If the user is the server
+            if (NetworkServer.active) {
 
-            GUILayout.Label("Item to Give:", GUILayout.ExpandWidth(false));
+                #region Item Give Field
+                GUILayout.BeginHorizontal(GUI.skin.box);
 
-            // If the user wants to show the dropdown menu
-            if (EditorGUILayout.DropdownButton(new GUIContent(ItemIDToGive), FocusType.Passive)) {
+                GUILayout.Label("Item to Give:", GUILayout.ExpandWidth(false));
 
-                // Initialize the dropdown menu
-                GenericMenu menu = new GenericMenu();
+                // If the user wants to show the dropdown menu
+                if (EditorGUILayout.DropdownButton(new GUIContent(ItemIDToGive), FocusType.Passive)) {
 
-                // Loop through all the registered items
-                foreach (Item item in Item.Items) {
+                    // Initialize the dropdown menu
+                    GenericMenu menu = new GenericMenu();
 
-                    // Add the item id to the menu
-                    menu.AddItem(new GUIContent(item.ID), ItemIDToGive == item.ID, () => ItemIDToGive = item.ID);
+                    // Loop through all the registered items
+                    foreach (Item item in Item.Items) {
+
+                        // Add the item id to the menu
+                        menu.AddItem(new GUIContent(item.ID), ItemIDToGive == item.ID, () => ItemIDToGive = item.ID);
+
+                    }
+
+                    // Show the menu
+                    menu.ShowAsContext();
 
                 }
 
-                // Show the menu
-                menu.ShowAsContext();
+                GUILayout.EndHorizontal();
+                #endregion
 
             }
-
-            GUILayout.EndHorizontal();
-            #endregion
 
             // Begin and save the scroll view position
             ScrollPos = GUILayout.BeginScrollView(ScrollPos);

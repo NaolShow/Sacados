@@ -50,6 +50,11 @@ namespace Sacados.Items {
         /// </summary>
         public uint MaxStackSize;
 
+        /// <summary>
+        /// Sprite of the Item
+        /// </summary>
+        public Sprite Sprite;
+
     }
 
     public static class NetworkItemSerializer {

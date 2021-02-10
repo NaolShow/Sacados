@@ -123,6 +123,9 @@ namespace Sacados.Containers {
 
         public override void OnStopClient() {
 
+            // If the client is not active
+            if (!NetworkClient.active) return;
+
             // Unbuild the container
             Unbuild();
 
