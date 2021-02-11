@@ -28,6 +28,9 @@ namespace Sacados.Containers {
             // Initialize the slots list
             Slots = new List<Slot>(slotsCount);
 
+            // If there is no slots to create (if it's a flexible sized container)
+            if (slotsCount == 0) return true;
+
             // Add null ItemStacks to the list
             ItemStacks.AddRange(new ItemStack[slotsCount]);
 
@@ -47,10 +50,10 @@ namespace Sacados.Containers {
         public virtual ItemStack Give(ItemStack itemStack) {
 
             // Loop through the slots
-            for (int i = 0; i < SlotsCount; i++) {
+            foreach (Slot slot in Slots.ToArray()) {
 
                 // Give and save the remaining ItemStack
-                itemStack = Slots[i].Give(itemStack);
+                itemStack = slot.Give(itemStack);
 
                 // If we have given everything
                 if (itemStack.StackSize == 0) return ItemStack.Empty;
@@ -69,10 +72,10 @@ namespace Sacados.Containers {
         public virtual ItemStack Take(ItemStack itemStack) {
 
             // Loop through the slots
-            for (int i = 0; i < SlotsCount; i++) {
+            foreach (Slot slot in Slots.ToArray()) {
 
                 // Take and save the remaining ItemStack
-                itemStack = Slots[i].Take(itemStack);
+                itemStack = slot.Take(itemStack);
 
                 // If we have taken everything
                 if (itemStack.StackSize == 0) return ItemStack.Empty;
@@ -116,7 +119,6 @@ namespace Sacados.Containers {
         /// Called when the container has emptied completely a slot<br/>
         /// In here you could for example remove the slot (if you want to make a flexible container)
         /// </summary>
-        /// <param name="slot"></param>
         public virtual void OnSlotEmpty(Slot slot) { }
 
         #endregion

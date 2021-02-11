@@ -1,9 +1,9 @@
 ﻿using Sacados.Items;
 using UnityEngine;
 
-namespace Sacados.Examples.GUI {
+namespace Sacados.Examples {
 
-    public class MyContainerManager : MonoBehaviour {
+    public class ItemsRegister : MonoBehaviour {
 
         public Item[] ItemsToRegister;
 

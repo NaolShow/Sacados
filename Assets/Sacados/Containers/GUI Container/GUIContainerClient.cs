@@ -21,9 +21,9 @@ namespace Sacados.Containers {
         public bool IsBuilt => SlotsUI != null;
 
         /// <summary>
-        /// Called by the ItemStacks list when it is updated on the server (only when the container is built)
+        /// Called when an ItemStack is updated by the server. This is called only when the container is built and before the internal method (so before it tries to refresh the slotUI)<br/>
         /// </summary>
-        private void OnItemStacksUpdate(SyncList<ItemStack>.Operation operation, int index, ItemStack _, ItemStack itemStack) {
+        protected virtual void OnContainerUpdate(SyncList<ItemStack>.Operation operation, int index, ItemStack oldItemStack, ItemStack itemStack) {
 
             switch (operation) {
 
@@ -72,10 +72,10 @@ namespace Sacados.Containers {
             if (IsBuilt) return false;
 
             // Subscribe to the ItemStacks callback
-            ItemStacks.Callback += OnItemStacksUpdate;
+            ItemStacks.Callback += OnContainerUpdate;
 
             // Call the generate slots method
-            GenerateSlots();
+            BuildSlots();
 
             return true;
 
@@ -92,10 +92,13 @@ namespace Sacados.Containers {
             if (!IsBuilt) return false;
 
             // Unsubscribe from the ItemStacks callback
-            ItemStacks.Callback -= OnItemStacksUpdate;
+            ItemStacks.Callback -= OnContainerUpdate;
 
             // Call the destroy slots method
             DestroySlots();
+
+            // Clear the slots UI list
+            SlotsUI = null;
 
             return true;
 
@@ -106,11 +109,11 @@ namespace Sacados.Containers {
         #region Virtual methods
 
         /// <summary>
-        /// Generates the client's slots (override it to implement your own generation method)<br/>
+        /// Builds the client's slots (override it to implement your own build method)<br/>
         /// Called from the <see cref="Build"/> method
         /// </summary>
         [Client]
-        protected virtual void GenerateSlots() => Debug.LogWarning($"[Sacados] Method '{nameof(GenerateSlots)}' is not overrided in the container '{name}' !", this);
+        protected virtual void BuildSlots() => Debug.LogWarning($"[Sacados] Method '{nameof(BuildSlots)}' is not overrided in the container '{name}' !", this);
 
         /// <summary>
         /// Destroys the client's slots (override it to implement your own destroy method)<br/>

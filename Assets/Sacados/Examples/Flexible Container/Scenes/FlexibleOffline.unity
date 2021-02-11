@@ -301,8 +301,8 @@ MonoBehaviour:
   autoStartServerBuild: 1
   showDebugMessages: 0
   serverTickRate: 30
-  offlineScene: Assets/Sacados/Examples/GUI Container/Scenes/Offline.unity
-  onlineScene: Assets/Sacados/Examples/GUI Container/Scenes/Online.unity
+  offlineScene: Assets/Sacados/Examples/Flexible Container/Scenes/FlexibleOffline.unity
+  onlineScene: Assets/Sacados/Examples/Flexible Container/Scenes/FlexibleOnline.unity
   transport: {fileID: 1718955105}
   networkAddress: localhost
   maxConnections: 4

@@ -10,7 +10,7 @@ namespace Sacados.Slots {
         #region Container
 
         public readonly Container Container;
-        public readonly int Index;
+        public int Index => Container.Slots.IndexOf(this);
 
         #endregion
 
@@ -22,11 +22,10 @@ namespace Sacados.Slots {
             set { Container.ItemStacks[Index] = value; }
         }
 
-        public Slot(Container container, int index) {
+        public Slot(Container container) {
 
-            // Save the slot container and index
+            // Save the slot container
             Container = container;
-            Index = index;
 
         }
 

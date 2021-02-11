@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Sacados.Examples.GUI {
 
-    public class MySlotUI : SlotUI {
+    public class FixedSlotUI : SlotUI {
 
         public Text StackSizeText;
         public Image ItemSpriteImage;
