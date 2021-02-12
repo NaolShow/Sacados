@@ -1,4 +1,6 @@
-﻿using Mirror;
+﻿#if UNITY_EDITOR
+
+using Mirror;
 using Sacados.Containers;
 using Sacados.Items;
 using UnityEditor;
@@ -55,9 +57,9 @@ namespace Sacados.Editor {
             // Get the container
             Container = Selection.activeGameObject.GetComponent<Container>();
 
-            // If the container is not initialized
-            if (Container == null || (Container.ItemStacks == null && Container.Slots == null)) {
-                EditorGUILayout.HelpBox("The selected object is not a container or it is not initialized", MessageType.Error);
+            // If it's not a container
+            if (Container == null) {
+                EditorGUILayout.HelpBox("The selected object is not a container", MessageType.Error);
                 return;
             }
 
@@ -149,6 +151,8 @@ namespace Sacados.Editor {
 
             }
 
+#if IS_SERVER
+
             // If the user is the server
             if (NetworkServer.active) {
 
@@ -193,10 +197,13 @@ namespace Sacados.Editor {
 
             }
 
+#endif
+
             GUILayout.EndVertical();
         }
 
     }
 
-
 }
+
+#endif

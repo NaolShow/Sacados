@@ -1,4 +1,6 @@
-﻿using Sacados.Items;
+﻿#if IS_CLIENT
+
+using Sacados.Items;
 using Sacados.Slots;
 using UnityEngine.UI;
 
@@ -25,3 +27,5 @@ namespace Sacados.Examples.FlexibleContainer {
     }
 
 }
+
+#endif
