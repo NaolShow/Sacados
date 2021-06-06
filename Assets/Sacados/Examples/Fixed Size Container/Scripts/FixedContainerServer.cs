@@ -1,6 +1,5 @@
 ﻿#if IS_SERVER
 
-using Mirror;
 using Sacados.Containers;
 using Sacados.Items;
 using Sacados.Slots;
@@ -16,15 +15,16 @@ namespace Sacados.Examples.FixedContainer {
           * 
           **/
 
-        [ServerCallback]
         private void Awake() {
+
+            // If it's not the server
+            if (NetworkManager.IsClient) return;
 
             // Initialize the container with 25 slots
             Initialize(25);
 
         }
 
-        [ServerCallback]
         private void ServerUpdate() {
 
             // If the user wants to give an Item

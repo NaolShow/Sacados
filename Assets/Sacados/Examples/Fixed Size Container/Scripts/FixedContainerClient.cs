@@ -1,6 +1,5 @@
 ﻿#if IS_CLIENT
 
-using Mirror;
 using Sacados.Containers;
 using Sacados.Slots;
 using System.Collections.Generic;
@@ -21,7 +20,6 @@ namespace Sacados.Examples.FixedContainer {
         /// </summary>    
         public SlotUI SlotUIPrefab;
 
-        [ClientCallback]
         private void ClientUpdate() {
 
             // If the user wants to toggle the container
