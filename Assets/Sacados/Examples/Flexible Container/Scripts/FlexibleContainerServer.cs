@@ -9,10 +9,10 @@ namespace Sacados.Examples.FlexibleContainer {
 
     public partial class FlexibleContainer : GUIContainer {
 
-        private void Awake() {
+        public override void NetworkStart() {
 
             // If it's not the server
-            if (NetworkManager.IsClient) return;
+            if (!NetworkManager.IsServer) return;
 
             // Initialize the container with 0 slots
             Initialize(0);

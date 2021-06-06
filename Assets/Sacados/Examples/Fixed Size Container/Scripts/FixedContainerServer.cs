@@ -15,10 +15,10 @@ namespace Sacados.Examples.FixedContainer {
           * 
           **/
 
-        private void Awake() {
+        public override void NetworkStart() {
 
             // If it's not the server
-            if (NetworkManager.IsClient) return;
+            if (!NetworkManager.IsServer) return;
 
             // Initialize the container with 25 slots
             Initialize(25);
