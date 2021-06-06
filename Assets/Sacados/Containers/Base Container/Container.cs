@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using MLAPI;
+using MLAPI.NetworkVariable.Collections;
 using Sacados.Items;
 
 namespace Sacados.Containers {
@@ -8,7 +9,7 @@ namespace Sacados.Containers {
         /// <summary>
         /// List containing the container's ItemStacks
         /// </summary>
-        public SyncList<ItemStack> ItemStacks { get; } = new SyncList<ItemStack>();
+        public NetworkList<ItemStack> ItemStacks { get; } = new NetworkList<ItemStack>();
 
         /// <summary>
         /// Determines how many slots the container have

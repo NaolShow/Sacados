@@ -1,6 +1,6 @@
 ﻿#if IS_SERVER
 
-using Mirror;
+using MLAPI;
 using Sacados.Items;
 using Sacados.Slots;
 using System.Collections.Generic;
@@ -19,7 +19,6 @@ namespace Sacados.Containers {
         /// Initializes the container with the specified slots count<br/>
         /// Returns true if the container was not already initialized
         /// </summary>
-        [Server]
         public bool Initialize(int slotsCount) {
 
             // If the container is already initialized
@@ -32,7 +31,7 @@ namespace Sacados.Containers {
             if (slotsCount == 0) return true;
 
             // Add null ItemStacks to the list
-            ItemStacks.AddRange(new ItemStack[slotsCount]);
+            for (int i = 0; i < slotsCount; i++) ItemStacks.Add(ItemStack.Empty);
 
             // Create the slots
             CreateSlots();
@@ -46,7 +45,6 @@ namespace Sacados.Containers {
         /// <summary>
         /// Gives the ItemStack to the container and returns the surplus (if there is)
         /// </summary>
-        [Server]
         public virtual ItemStack Give(ItemStack itemStack) {
 
             // Loop through the slots
@@ -68,7 +66,6 @@ namespace Sacados.Containers {
         /// <summary>
         /// Takes the ItemStack from the container and returns the remaining (if there is)
         /// </summary>
-        [Server]
         public virtual ItemStack Take(ItemStack itemStack) {
 
             // Loop through the slots
@@ -95,7 +92,6 @@ namespace Sacados.Containers {
         /// Creates the server's slots (override it to implement your own slots)<br/>
         /// Called from the <see cref="Initialize(int)"/> method
         /// </summary>
-        [Server]
         protected virtual void CreateSlots() => Debug.LogWarning($"[Sacados] Method '{nameof(CreateSlots)} is not overrided in the container '{name}' !", this);
 
         /// <summary>
