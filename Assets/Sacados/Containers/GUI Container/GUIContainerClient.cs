@@ -109,14 +109,12 @@ namespace Sacados.Containers {
         /// Builds the client's slots (override it to implement your own build method)<br/>
         /// Called from the <see cref="Build"/> method
         /// </summary>
-        [Client]
         protected virtual void BuildSlots() => Debug.LogWarning($"[Sacados] Method '{nameof(BuildSlots)}' is not overrided in the container '{name}' !", this);
 
         /// <summary>
         /// Destroys the client's slots (override it to implement your own destroy method)<br/>
         /// Called from the <see cref="Unbuild"/> method
         /// </summary>
-        [Client]
         protected virtual void DestroySlots() => Debug.LogWarning($"[Sacados] Method '{nameof(DestroySlots)}' is not overrided in the container '{name}' !", this);
 
         #endregion
