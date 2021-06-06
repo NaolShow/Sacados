@@ -1,6 +1,6 @@
 ﻿#if UNITY_EDITOR
 
-using Mirror;
+using MLAPI;
 using Sacados.Containers;
 using Sacados.Items;
 using UnityEditor;
@@ -43,7 +43,7 @@ namespace Sacados.Editor {
             }
 
             // If the user is not a client or a server
-            if (!NetworkClient.active && !NetworkServer.active) {
+            if (!NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsServer && !NetworkManager.Singleton.IsHost) {
                 EditorGUILayout.HelpBox("You must be the client or the server to see a container content", MessageType.Info);
                 return;
             }
@@ -71,7 +71,7 @@ namespace Sacados.Editor {
         public void DisplayItemStacks() {
 
             // If the user is the server
-            if (NetworkServer.active) {
+            if (NetworkManager.Singleton.IsServer || NetworkManager.Singleton.IsHost) {
 
                 #region Item Give Field
                 GUILayout.BeginHorizontal(GUI.skin.box);
@@ -154,7 +154,7 @@ namespace Sacados.Editor {
 #if IS_SERVER
 
             // If the user is the server
-            if (NetworkServer.active) {
+            if (NetworkManager.Singleton.IsServer || NetworkManager.Singleton.IsHost) {
 
                 #region Management
                 GUILayout.BeginHorizontal(GUI.skin.box);
