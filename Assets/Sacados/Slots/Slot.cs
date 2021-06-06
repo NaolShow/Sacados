@@ -1,6 +1,5 @@
 ﻿#if IS_SERVER
 
-using Mirror;
 using Sacados.Containers;
 using Sacados.Items;
 using System;
@@ -9,12 +8,12 @@ namespace Sacados.Slots {
 
     public class Slot {
 
-#region Container
+        #region Container
 
         public readonly Container Container;
         public int Index => Container.Slots.IndexOf(this);
 
-#endregion
+        #endregion
 
         /// <summary>
         /// The slot's ItemStack, when setting an ItemStack to this variable, no checks are done
@@ -34,15 +33,13 @@ namespace Sacados.Slots {
         /// <summary>
         /// Determines if the ItemStack is accepted (=filtered) in the slot
         /// </summary>
-        [Server]
         public virtual bool IsFiltered(ItemStack itemStack) => true;
 
-#region Management
+        #region Management
 
         /// <summary>
         /// Sets the ItemStack (and overwrites the current slot ItemStack) to the slot and returns the surplus (if there is)
         /// </summary>
-        [Server]
         public virtual ItemStack Set(ItemStack itemStack) {
 
             // If the ItemStack is empty
@@ -88,10 +85,9 @@ namespace Sacados.Slots {
         /// <summary>
         /// Gives the ItemStack to the slot and returns the surplus (if there is)
         /// </summary>
-        [Server]
         public virtual ItemStack Give(ItemStack itemStack) {
 
-#region Empty slot
+            #region Empty slot
 
             // Get the slot ItemStack
             ItemStack slotItemStack = ItemStack;
@@ -104,7 +100,7 @@ namespace Sacados.Slots {
 
             }
 
-#endregion
+            #endregion
 
             // If the ItemStack is empty or isn't filtered or not the same as the slot Item
             if (itemStack.IsEmpty || !IsFiltered(itemStack) || !slotItemStack.IsSameAs(itemStack)) return itemStack;
@@ -134,7 +130,6 @@ namespace Sacados.Slots {
         /// <summary>
         /// Takes the ItemStack from the slot and returns the remaining (if there is)
         /// </summary>
-        [Server]
         public virtual ItemStack Take(ItemStack itemStack) {
 
             // If the ItemStack is empty
@@ -168,7 +163,7 @@ namespace Sacados.Slots {
 
         }
 
-#endregion
+        #endregion
 
     }
 
