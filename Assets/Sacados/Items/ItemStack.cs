@@ -1,8 +1,8 @@
-﻿using Mirror;
+﻿using MLAPI.Serialization;
 
 namespace Sacados.Items {
 
-    public struct ItemStack {
+    public struct ItemStack : INetworkSerializable {
 
         #region Static
 
@@ -68,47 +68,68 @@ namespace Sacados.Items {
             return itemStack.IsEmpty || IsSameAs(itemStack);
         }
 
+
         #endregion
 
-    }
+        public void NetworkSerialize(NetworkSerializer serializer) {
 
-    public static class NetworkItemStackSerializer {
+            // If MLAPI is deserializing the itemstack
+            if (serializer.IsReading) {
 
-        /// <summary>
-        /// Writes an ItemStack to the Network Writer
-        /// </summary>
-        public static void WriteItemStack(this NetworkWriter writer, ItemStack itemStack) {
-
-            // If the ItemStack is empty
-            if (itemStack.IsEmpty) {
-
-                // Write an empty Item
-                writer.WriteString(null);
+                // Call the deserializing method
+                Deserialize(serializer.Reader);
                 return;
 
             }
 
-            // Write the item
-            writer.WriteItem(itemStack.Item);
-
-            // Write the stack size
-            writer.WriteUInt32(itemStack.StackSize);
+            // Call the serialize method
+            Serialize(serializer.Writer);
 
         }
 
         /// <summary>
-        /// Reads an ItemStack from the Network Reader
+        /// Writes the ItemStack to the NetworkSerializer
         /// </summary>
-        public static ItemStack ReadItemStack(this NetworkReader reader) {
+        private void Serialize(NetworkWriter writer) {
 
-            // Read the item
-            Item item = reader.ReadItem();
+            // If the ItemStack is empty
+            if (IsEmpty) {
 
-            // If the item is null (it means that the itemstack is empty)
-            if (item == null) return ItemStack.Empty;
+                // Write an empty item ID
+                writer.WriteString(string.Empty);
+                return;
 
-            // Create and return the itemstack
-            return new ItemStack(item, reader.ReadUInt32());
+            }
+
+            // Write the Item ID
+            writer.WriteString(Item.ID);
+
+            // Write the stack size
+            writer.WriteUInt32(StackSize);
+
+        }
+
+        /// <summary>
+        /// Reads the ItemStack from the NetworkSerializer
+        /// </summary>
+        private void Deserialize(NetworkReader reader) {
+
+            // Read the item's ID
+            string id = reader.ReadString().ToString();
+
+            // If the itemstack is null
+            if (id == string.Empty) {
+
+                Item = null;
+                return;
+
+            }
+
+            // Get the item
+            Item = Item.Get(id);
+
+            // Read the stack size
+            StackSize = reader.ReadUInt32();
 
         }
 

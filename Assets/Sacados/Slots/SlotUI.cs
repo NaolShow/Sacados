@@ -1,6 +1,5 @@
 ﻿#if IS_CLIENT
 
-using Mirror;
 using Sacados.Containers;
 using Sacados.Items;
 using UnityEngine;
@@ -18,7 +17,6 @@ namespace Sacados.Slots {
 
         protected ItemStack ItemStack => Container.ItemStacks[Index];
 
-        [Client]
         public SlotUI Initialize(GUIContainer container) {
 
             // Save the slot container
@@ -34,7 +32,6 @@ namespace Sacados.Slots {
         /// Refreshes the slot UI (override it to implement your own slot UI)<br/>
         /// Called from the OnItemStacksUpdate method
         /// </summary>
-        [Client]
         public virtual void Refresh(ItemStack itemStack) => Debug.LogWarning($"[Sacados] Method '{nameof(Refresh)} is not overrided in the slot UI '{name}' !", this);
 
         /// <summary>

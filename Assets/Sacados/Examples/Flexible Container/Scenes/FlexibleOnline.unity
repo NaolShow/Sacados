@@ -496,13 +496,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 339274163}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneId: 631137345
-  serverOnly: 0
-  m_AssetId: 
-  hasSpawned: 0
+  NetworkInstanceId: 0
+  PrefabHash: 11694714464045865886
+  PrefabHashGenerator: Container
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
 --- !u!222 &339274166
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -549,8 +550,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1ceff11cda9a6c4e975a5959d30278c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   SlotUIPrefab: {fileID: 2787645467071186444, guid: 5287c724a55288c48abf608f436d24a1, type: 3}
 --- !u!1 &377874048
 GameObject:

@@ -16,11 +16,25 @@ namespace Sacados.Examples.FlexibleContainer {
             // Because we can't have two Update() method in one class
 
 #if IS_CLIENT
-            ClientUpdate();
+
+            // If it is the client
+            if (NetworkManager.IsClient || NetworkManager.IsHost) {
+
+                ClientUpdate();
+
+            }
+
 #endif
 
 #if IS_SERVER
-            ServerUpdate();
+
+            // If it is the server
+            if (NetworkManager.IsServer || NetworkManager.IsHost) {
+
+                ServerUpdate();
+
+            }
+
 #endif
 
         }

@@ -1,5 +1,4 @@
-﻿using Mirror;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -54,24 +53,6 @@ namespace Sacados.Items {
         /// Sprite of the Item
         /// </summary>
         public Sprite Sprite;
-
-    }
-
-    public static class NetworkItemSerializer {
-
-        /// <summary>
-        /// Writes an Item to the Network Writer
-        /// </summary>
-        public static void WriteItem(this NetworkWriter writer, Item item) {
-            writer.WriteString(item?.ID);
-        }
-
-        /// <summary>
-        /// Reads an Item from the Network Reader
-        /// </summary>
-        public static Item ReadItem(this NetworkReader reader) {
-            return Item.Get(reader.ReadString());
-        }
 
     }
 
