@@ -1,4 +1,5 @@
 ﻿using MLAPI;
+using MLAPI.NetworkVariable;
 using MLAPI.NetworkVariable.Collections;
 using Sacados.Items;
 
@@ -9,7 +10,10 @@ namespace Sacados.Containers {
         /// <summary>
         /// List containing the container's ItemStacks
         /// </summary>
-        public NetworkList<ItemStack> ItemStacks { get; } = new NetworkList<ItemStack>();
+        public NetworkList<ItemStack> ItemStacks { get; } = new NetworkList<ItemStack>(new NetworkVariableSettings() {
+            ReadPermission = NetworkVariablePermission.Everyone,
+            WritePermission = NetworkVariablePermission.ServerOnly
+        });
 
         /// <summary>
         /// Determines how many slots the container have
