@@ -119,16 +119,6 @@ namespace Sacados.Containers {
 
         #endregion
 
-        private void OnDestroy() {
-
-            // If the client is not active
-            if (!NetworkManager.IsConnectedClient) return;
-
-            // Unbuild the container
-            Unbuild();
-
-        }
-
     }
 
 }
