@@ -1,6 +1,6 @@
 ﻿#if IS_CLIENT
 
-using Mirror;
+using MLAPI.NetworkVariable.Collections;
 using Sacados.Containers;
 using Sacados.Items;
 using Sacados.Slots;
@@ -22,7 +22,6 @@ namespace Sacados.Examples.FlexibleContainer {
         /// </summary>
         public FlexibleSlotUI SlotUIPrefab;
 
-        [ClientCallback]
         private void ClientUpdate() {
 
             // If the user wants to toggle the container
@@ -63,8 +62,7 @@ namespace Sacados.Examples.FlexibleContainer {
 
         #endregion
 
-        [Client]
-        private void BuildSlot() { // int insertTo
+        private void BuildSlot() {
 
             // Instantiate and initialize a new Slot UI
             SlotUI slotUI = Instantiate(SlotUIPrefab, transform).Initialize(this);
@@ -77,29 +75,29 @@ namespace Sacados.Examples.FlexibleContainer {
 
         }
 
-        protected override void OnContainerUpdate(SyncList<ItemStack>.Operation operation, int index, ItemStack _, ItemStack itemStack) {
+        protected override void OnContainerUpdate(NetworkListEvent<ItemStack> e) {
 
-            switch (operation) {
+            switch (e.Type) {
 
                 // The server has added a new ItemStack.
                 // So it means that we have to build a new slot
-                case SyncList<ItemStack>.Operation.OP_ADD:
+                case NetworkListEvent<ItemStack>.EventType.Add:
                     BuildSlot();
                     break;
 
                 // The server has removed an ItemStack
                 // So it means that we have to destroy a slot
-                case SyncList<ItemStack>.Operation.OP_REMOVEAT:
+                case NetworkListEvent<ItemStack>.EventType.RemoveAt:
 
                     // Destroy the slot UI
-                    Destroy(SlotsUI[index].gameObject);
+                    Destroy(SlotsUI[e.Index].gameObject);
 
                     // Remove the slot UI from the list
-                    SlotsUI.RemoveAt(index);
+                    SlotsUI.RemoveAt(e.Index);
 
                     break;
                 default:
-                    base.OnContainerUpdate(operation, index, _, itemStack);
+                    base.OnContainerUpdate(e);
                     break;
 
             }

@@ -1,6 +1,5 @@
 ﻿#if IS_SERVER
 
-using Mirror;
 using Sacados.Containers;
 using Sacados.Items;
 using Sacados.Slots;
@@ -10,11 +9,16 @@ namespace Sacados.Examples.FlexibleContainer {
 
     public partial class FlexibleContainer : GUIContainer {
 
-        // Initialize the container with 0 slots
-        [ServerCallback]
-        private void Awake() => Initialize(0);
+        private void Awake() {
 
-        [ServerCallback]
+            // If it's not the server
+            if (NetworkManager.IsClient) return;
+
+            // Initialize the container with 0 slots
+            Initialize(0);
+
+        }
+
         private void ServerUpdate() {
 
             // If the user wants to give an Item
@@ -33,7 +37,6 @@ namespace Sacados.Examples.FlexibleContainer {
         }
 
         // Called when we reach the slots limit
-        [Server]
         protected override ItemStack OnOverflow(ItemStack itemStack) {
 
             // While the ItemStack is not empty
@@ -53,7 +56,6 @@ namespace Sacados.Examples.FlexibleContainer {
 
         }
 
-        [Server]
         public override void OnSlotEmpty(Slot slot) {
 
             // Remove the itemstack from the item stacks list
