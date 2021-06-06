@@ -96,7 +96,7 @@ namespace Sacados.Items {
             if (IsEmpty) {
 
                 // Write an empty item ID
-                writer.WriteString(null);
+                writer.WriteString(string.Empty);
                 return;
 
             }
@@ -118,7 +118,7 @@ namespace Sacados.Items {
             string id = reader.ReadString().ToString();
 
             // If the itemstack is null
-            if (id == null) {
+            if (id == string.Empty) {
 
                 Item = null;
                 return;
