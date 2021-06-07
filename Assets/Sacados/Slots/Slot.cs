@@ -19,8 +19,8 @@ namespace Sacados.Slots {
         /// The slot's ItemStack, when setting an ItemStack to this variable, no checks are done
         /// </summary>
         protected virtual ItemStack ItemStack {
-            get { return Container.ItemStacks[Index]; }
-            set { Container.ItemStacks[Index] = value; }
+            get => Container.ItemStacks[Index];
+            set => Container.ItemStacks[Index] = value;
         }
 
         public Slot(Container container) {
