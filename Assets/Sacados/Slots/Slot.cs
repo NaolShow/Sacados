@@ -42,6 +42,9 @@ namespace Sacados.Slots {
         /// </summary>
         public virtual ItemStack Set(ItemStack itemStack) {
 
+            // If the itemstack is not filtered
+            if (!IsFiltered(itemStack)) return itemStack;
+
             // If the ItemStack is empty
             if (itemStack.IsEmpty) {
 
@@ -53,9 +56,6 @@ namespace Sacados.Slots {
 
                 return itemStack;
             }
-
-            // If the itemstack is not filtered
-            if (!IsFiltered(itemStack)) return itemStack;
 
             // Determines the transfer size
             uint transferSize = Math.Min(itemStack.StackSize, itemStack.Item.MaxStackSize);
