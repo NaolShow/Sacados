@@ -19,8 +19,8 @@ namespace Sacados.Slots {
         /// The slot's ItemStack, when setting an ItemStack to this variable, no checks are done
         /// </summary>
         protected virtual ItemStack ItemStack {
-            get { return Container.ItemStacks[Index]; }
-            set { Container.ItemStacks[Index] = value; }
+            get => Container.ItemStacks[Index];
+            set => Container.ItemStacks[Index] = value;
         }
 
         public Slot(Container container) {
@@ -42,6 +42,9 @@ namespace Sacados.Slots {
         /// </summary>
         public virtual ItemStack Set(ItemStack itemStack) {
 
+            // If the itemstack is not filtered
+            if (!IsFiltered(itemStack)) return itemStack;
+
             // If the ItemStack is empty
             if (itemStack.IsEmpty) {
 
@@ -53,9 +56,6 @@ namespace Sacados.Slots {
 
                 return itemStack;
             }
-
-            // If the itemstack is not filtered
-            if (!IsFiltered(itemStack)) return itemStack;
 
             // Determines the transfer size
             uint transferSize = Math.Min(itemStack.StackSize, itemStack.Item.MaxStackSize);
