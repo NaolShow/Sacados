@@ -8,7 +8,7 @@ namespace Sacados.Containers {
         /// <summary>
         /// List containing the container's ItemStacks
         /// </summary>
-        public NetworkList<ItemStack> ItemStacks { get; } = new NetworkList<ItemStack>();
+        public NetworkStandardList<ItemStack> ItemStacks { get; } = new NetworkStandardList<ItemStack>();
 
         /// <summary>
         /// Determines how many slots the container have

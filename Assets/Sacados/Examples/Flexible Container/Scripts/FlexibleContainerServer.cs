@@ -40,11 +40,11 @@ namespace Sacados.Examples.FlexibleContainer {
         protected override ItemStack OnOverflow(ItemStack itemStack) {
 
             // While the ItemStack is not empty
-            while (!itemStack.IsEmpty) {
+            while (!itemStack.IsEmpty()) {
 
                 // Create a new slot and add an empty itemstack
                 Slots.Add(new Slot(this));
-                ItemStacks.Add(ItemStack.Empty);
+                ItemStacks.Add(null);
 
                 // Give the ItemStack to the new slot and save the remaining
                 itemStack = Slots[SlotsCount - 1].Give(itemStack);

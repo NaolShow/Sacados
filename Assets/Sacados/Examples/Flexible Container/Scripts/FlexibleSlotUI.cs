@@ -14,7 +14,7 @@ namespace Sacados.Examples.FlexibleContainer {
         public override void Refresh(ItemStack itemStack) {
 
             // If the ItemStack is empty
-            if (itemStack.IsEmpty) return;
+            if (itemStack.IsEmpty()) return;
 
             // Set the Item Stack Size
             ItemStackSizeText.text = itemStack.StackSize.ToString();

@@ -46,10 +46,10 @@ namespace Sacados.Slots {
             if (!IsFiltered(itemStack)) return itemStack;
 
             // If the ItemStack is empty
-            if (itemStack.IsEmpty) {
+            if (itemStack.IsEmpty()) {
 
                 // Set the slot ItemStack to an empty one
-                ItemStack = ItemStack.Empty;
+                ItemStack = null;
 
                 // Call the on SlotEmpty method
                 Container.OnSlotEmpty(this);
@@ -61,7 +61,7 @@ namespace Sacados.Slots {
             uint transferSize = Math.Min(itemStack.StackSize, itemStack.Item.MaxStackSize);
 
             // Copy the ItemStack
-            ItemStack copiedItemStack = itemStack;
+            ItemStack copiedItemStack = itemStack.Clone();
 
             // Transfer the stacks
             copiedItemStack.StackSize = transferSize;
@@ -93,7 +93,7 @@ namespace Sacados.Slots {
             ItemStack slotItemStack = ItemStack;
 
             // If the slot is empty
-            if (slotItemStack.IsEmpty) {
+            if (slotItemStack.IsEmpty()) {
 
                 // Set the ItemStack
                 return Set(itemStack);
@@ -103,7 +103,7 @@ namespace Sacados.Slots {
             #endregion
 
             // If the ItemStack is empty or isn't filtered or not the same as the slot Item
-            if (itemStack.IsEmpty || !IsFiltered(itemStack) || !slotItemStack.IsSameAs(itemStack)) return itemStack;
+            if (itemStack.IsEmpty() || !IsFiltered(itemStack) || !slotItemStack.IsSameAs(itemStack)) return itemStack;
 
             // Determines the transfer size
             uint transferSize = Math.Min(slotItemStack.Item.MaxStackSize - slotItemStack.StackSize, itemStack.StackSize);
@@ -133,13 +133,13 @@ namespace Sacados.Slots {
         public virtual ItemStack Take(ItemStack itemStack) {
 
             // If the ItemStack is empty
-            if (itemStack.IsEmpty) return itemStack;
+            if (itemStack.IsEmpty()) return itemStack;
 
             // Get the slot ItemStack
             ItemStack slotItemStack = ItemStack;
 
             // If the slot itemstack is empty or not the same as the itemstack item
-            if (slotItemStack.IsEmpty || !slotItemStack.IsSameAs(itemStack)) return itemStack;
+            if (slotItemStack.IsEmpty() || !slotItemStack.IsSameAs(itemStack)) return itemStack;
 
             // Determines the transfer size
             uint transferSize = Math.Min(slotItemStack.StackSize, itemStack.StackSize);
@@ -152,7 +152,7 @@ namespace Sacados.Slots {
             ItemStack = slotItemStack;
 
             // If the slot is now empty
-            if (slotItemStack.IsEmpty) {
+            if (slotItemStack.IsEmpty()) {
 
                 // Call the on SlotEmpty method
                 Container.OnSlotEmpty(this);

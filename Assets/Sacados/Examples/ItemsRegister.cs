@@ -14,6 +14,7 @@ namespace Sacados.Examples {
 
                 // Register the Items
                 Item.Register(item);
+                item.OnRegister();
 
             }
 

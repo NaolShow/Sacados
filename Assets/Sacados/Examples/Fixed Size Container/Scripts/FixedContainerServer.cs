@@ -27,6 +27,8 @@ namespace Sacados.Examples.FixedContainer {
 
         private void ServerUpdate() {
 
+            // Quick and dirty tests
+
             // If the user wants to give an Item
             if (Input.GetKeyDown(KeyCode.A)) {
 
@@ -37,6 +39,23 @@ namespace Sacados.Examples.FixedContainer {
 
                 // Takes 48 Items
                 Take(new ItemStack(Item.Get("test_item"), 48));
+
+            } else if (Input.GetKeyDown(KeyCode.Z)) {
+
+                ItemStack stack = Item.Get("new_test_item").CreateItemStack();
+                stack.Item = Item.Get("new_test_item");
+                stack.StackSize = 64;
+                // Gives 64 Items
+                Give(stack);
+                Debug.Log($"Giving {stack.Item.ID}x{stack.StackSize} ({stack.Item.ItemStack.Name})");
+
+            } else if (Input.GetKeyDown(KeyCode.S)) {
+
+                ItemStack stack = Item.Get("new_test_item").CreateItemStack();
+                stack.Item = Item.Get("new_test_item");
+                stack.StackSize = 48;
+                // Gives 64 Items
+                Take(stack);
 
             }
 

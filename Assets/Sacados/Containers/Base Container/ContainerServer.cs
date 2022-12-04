@@ -31,7 +31,7 @@ namespace Sacados.Containers {
             if (slotsCount == 0) return true;
 
             // Add null ItemStacks to the list
-            for (int i = 0; i < slotsCount; i++) ItemStacks.Add(ItemStack.Empty);
+            for (int i = 0; i < slotsCount; i++) ItemStacks.Add(null);
 
             // Create the slots
             CreateSlots();
@@ -54,7 +54,7 @@ namespace Sacados.Containers {
                 itemStack = slot.Give(itemStack);
 
                 // If we have given everything
-                if (itemStack.StackSize == 0) return ItemStack.Empty;
+                if (itemStack.StackSize == 0) return null;
 
             }
 
@@ -75,7 +75,7 @@ namespace Sacados.Containers {
                 itemStack = slot.Take(itemStack);
 
                 // If we have taken everything
-                if (itemStack.StackSize == 0) return ItemStack.Empty;
+                if (itemStack.StackSize == 0) return null;
 
             }
 

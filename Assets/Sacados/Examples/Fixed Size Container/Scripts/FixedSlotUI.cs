@@ -14,16 +14,16 @@ namespace Sacados.Examples.GUI {
         public override void Refresh(ItemStack itemStack) {
 
             // Set the stack size
-            StackSizeText.text = itemStack.StackSize.ToString();
+            StackSizeText.text = itemStack?.StackSize.ToString();
 
             // Set the item sprite
-            ItemSpriteImage.sprite = (itemStack.IsEmpty) ? null : itemStack.Item.Sprite;
+            ItemSpriteImage.sprite = (itemStack.IsEmpty()) ? null : itemStack.Item.Sprite;
 
             // Enable or disable the stack size (enabled if StackSize > 1)
-            StackSizeText.enabled = itemStack.StackSize > 1;
+            StackSizeText.enabled = !itemStack.IsEmpty() && itemStack.StackSize > 1;
 
             // Enable or disable the item sprite (enabled if itemstack is not empty)
-            ItemSpriteImage.enabled = !itemStack.IsEmpty;
+            ItemSpriteImage.enabled = !itemStack.IsEmpty();
 
 
         }

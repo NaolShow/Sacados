@@ -85,7 +85,7 @@ namespace Sacados.Editor {
                     GenericMenu menu = new GenericMenu();
 
                     // Loop through all the registered items
-                    foreach (Item item in Item.Items) {
+                    foreach (Item item in Item.Registry.Values) {
 
                         // Add the item id to the menu
                         menu.AddItem(new GUIContent(item.ID), ItemIDToGive == item.ID, () => ItemIDToGive = item.ID);
@@ -140,7 +140,7 @@ namespace Sacados.Editor {
             GUILayout.Label($"N°{index}", EditorStyles.miniLabel);
 
             // If the itemstack is empty
-            if (itemStack.IsEmpty) {
+            if (itemStack.IsEmpty()) {
                 GUILayout.Label("Empty", GUILayout.ExpandWidth(false));
             } else {
 
@@ -188,7 +188,7 @@ namespace Sacados.Editor {
                 else if (GUILayout.Button("C")) {
 
                     // Clear the slot
-                    Container.ItemStacks[index] = ItemStack.Empty;
+                    Container.ItemStacks[index] = null;
 
                 }
 
