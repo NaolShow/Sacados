@@ -1,13 +1,10 @@
 {
-    "name": "Sacados",
+    "name": "Hashing",
     "rootNamespace": "",
-    "references": [
-        "GUID:1491147abca9d7d4bb7105af628b223e",
-        "GUID:9d146c28fa5bae14f99c328bfcffeb9e"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
-    "allowUnsafeCode": false,
+    "allowUnsafeCode": true,
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
