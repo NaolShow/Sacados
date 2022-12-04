@@ -61,7 +61,7 @@ namespace Sacados.Items {
         /// <summary>
         /// Determines the ID of the <see cref="Item"/> (can be used to identify the <see cref="Item"/> in-game)
         /// </summary>
-        [field: SerializeField] public string ID { get; private set; }
+        [field: SerializeField] public string ID { get; set; }
         /// <summary>
         /// Determines the hash of the <see cref="Item.ID"/> (used to synchronize the <see cref="Item"/> accross the network)
         /// </summary>
@@ -70,12 +70,12 @@ namespace Sacados.Items {
         /// <summary>
         /// Determines the max stack size of the <see cref="Item"/> (maximum amount that can be stored in one single slot)
         /// </summary>
-        [field: SerializeField] public uint MaxStackSize { get; private set; }
+        [field: SerializeField] public uint MaxStackSize { get; set; }
 
         /// <summary>
         /// Determines the <see cref="Sprite"/> of the <see cref="Item"/> (will be displayed in user interfaces)
         /// </summary>
-        [field: SerializeField] public Sprite Sprite { get; private set; }
+        [field: SerializeField] public Sprite Sprite { get; set; }
 
         /// <summary>
         /// Creates an <see cref="ItemStack"/> for the <see cref="Item"/>
