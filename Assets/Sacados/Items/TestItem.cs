@@ -1,5 +1,4 @@
 ﻿using Sacados.Items;
-using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -8,7 +7,7 @@ namespace Assets.Sacados.Items {
     [CreateAssetMenu(fileName = "New Test Item", menuName = "Sacados/Test Item")]
     public class TestItem : Item {
 
-        public override Type ItemStack => typeof(TestItemStack);
+        public override ItemStack CreateItemStack() => new TestItemStack(this);
 
     }
 
@@ -19,6 +18,7 @@ namespace Assets.Sacados.Items {
         public override bool IsSameAs(ItemStack itemStack) => itemStack is TestItemStack && base.IsSameAs(itemStack);
 
         public TestItemStack() { }
+        public TestItemStack(Item item) : base(item) { }
         public TestItemStack(TestItemStack itemStack) : base(itemStack) {
             Value = itemStack.Value;
         }

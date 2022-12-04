@@ -33,7 +33,9 @@ namespace Sacados.Examples.FixedContainer {
             if (Input.GetKeyDown(KeyCode.A)) {
 
                 // Gives 64 Items
-                Give(new ItemStack(Item.Get("test_item"), 64));
+                ItemStack stack = new ItemStack(Item.Get("test_item"), 64);
+                Debug.Log($"Giving {stack.Item.ID}x{stack.StackSize} ({stack.GetType().Name})");
+                Give(stack);
 
             } else if (Input.GetKeyDown(KeyCode.Q)) {
 
@@ -43,16 +45,14 @@ namespace Sacados.Examples.FixedContainer {
             } else if (Input.GetKeyDown(KeyCode.Z)) {
 
                 ItemStack stack = Item.Get("new_test_item").CreateItemStack();
-                stack.Item = Item.Get("new_test_item");
                 stack.StackSize = 64;
+                Debug.Log($"Giving {stack.Item.ID}x{stack.StackSize} ({stack.GetType().Name})");
                 // Gives 64 Items
                 Give(stack);
-                Debug.Log($"Giving {stack.Item.ID}x{stack.StackSize} ({stack.Item.ItemStack.Name})");
 
             } else if (Input.GetKeyDown(KeyCode.S)) {
 
                 ItemStack stack = Item.Get("new_test_item").CreateItemStack();
-                stack.Item = Item.Get("new_test_item");
                 stack.StackSize = 48;
                 // Gives 64 Items
                 Take(stack);

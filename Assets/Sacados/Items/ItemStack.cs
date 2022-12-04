@@ -20,15 +20,20 @@ namespace Sacados.Items {
         public Item Item {
             get => item; set {
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+
                 // If the item is not null
                 if (value != null) {
 
                     // If the item shouldn't be assigned to this type of ItemStack
-                    Type type = GetType();
-                    if (type != value.ItemStack)
-                        throw new ArgumentException($"Trying to assign the {nameof(Item)} '{value.ID}' to {type.Name} instead of {value.ItemStack.Name}");
+                    Type assignedType = value.CreateItemStack().GetType();
+                    Type requiredType = GetType();
+                    if (requiredType != assignedType)
+                        throw new ArgumentException($"Trying to assign the {nameof(Item)} '{value.ID}' to {assignedType.Name} instead of {requiredType.Name} (this could cause synchronization errors!)");
 
                 }
+#endif
+
                 item = value;
 
             }

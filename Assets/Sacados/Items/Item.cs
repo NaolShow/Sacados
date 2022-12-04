@@ -1,7 +1,5 @@
 ﻿using Hashing;
-using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -79,43 +77,11 @@ namespace Sacados.Items {
         /// </summary>
         [field: SerializeField] public Sprite Sprite { get; private set; }
 
-        #region Callbacks
-
-        /// <summary>
-        /// Called when the <see cref="Item"/> is getting registered inside of the <see cref="Registry"/>
-        /// </summary>
-        public virtual void OnRegister() {
-
-            // Create the item's itemstack constructor delegate
-            itemStackConstructor = Expression.Lambda<Func<ItemStack>>(Expression.New(ItemStack.GetConstructor(Type.EmptyTypes))).Compile();
-
-        }
-
-        #endregion
-
-        #region Custom Item Stacks
-
-        /// <summary>
-        /// Determines in which <see cref="ItemStack"/> type the <see cref="Item"/> should be stored
-        /// </summary>
-        public virtual Type ItemStack => typeof(ItemStack);
-
         /// <summary>
         /// Creates an <see cref="ItemStack"/> for the <see cref="Item"/>
         /// </summary>
         /// <returns>The <see cref="ItemStack"/> reference</returns>
-        /// <exception cref="InvalidOperationException">Thrown when the <see cref="Item"/> isn't registered</exception>
-        public ItemStack CreateItemStack() {
-
-            // If the item stack constructor isn't set
-            if (itemStackConstructor == null)
-                throw new InvalidOperationException($"Trying to create an {nameof(ItemStack)} for the Item '{nameof(ID)}' while it is currently not registered");
-            return itemStackConstructor.Invoke();
-
-        }
-        private Func<ItemStack> itemStackConstructor = null;
-
-        #endregion
+        public virtual ItemStack CreateItemStack() => new ItemStack(this);
 
     }
 
