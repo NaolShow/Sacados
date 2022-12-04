@@ -89,24 +89,16 @@ namespace Sacados.Items {
         /// Serializes the <see cref="ItemStack"/> into the specified <see cref="FastBufferWriter"/>
         /// </summary>
         /// <param name="writer">The <see cref="FastBufferWriter"/> that will contain the serialized <see cref="ItemStack"/></param>
-        /// <returns>True if the deserialization chain should stop or not</returns>
-        public virtual bool Serialize(FastBufferWriter writer) {
-            writer.WriteValueSafe(in item);
-            if (item == null) return false;
+        public virtual void Serialize(FastBufferWriter writer) {
             writer.WriteValueSafe(in stackSize);
-            return true;
         }
 
         /// <summary>
         /// Deserializes an <see cref="ItemStack"/> from the specified <see cref="FastBufferReader"/>
         /// </summary>
         /// <param name="reader">The <see cref="FastBufferReader"/> that contains a serialized <see cref="ItemStack"/></param>
-        /// <returns>True if the deserialization chain should continue or not</returns>
-        public virtual bool Deserialize(FastBufferReader reader) {
-            reader.ReadValueSafe(out item);
-            if (item == null) return false;
+        public virtual void Deserialize(FastBufferReader reader) {
             reader.ReadValueSafe(out stackSize);
-            return true;
         }
 
         /// <summary>
@@ -151,13 +143,12 @@ namespace Sacados.Items {
         /// <param name="value">The <see cref="ItemStack"/> that will get written</param>
         public static void WriteValueSafe(this FastBufferWriter writer, in ItemStack value) {
 
-            // Write the boolean that indicates if the item stack is empty or not
+            // If the ItemStack is empty then write an empty Item, else write the Item
             bool isEmpty = value.IsEmpty();
-            writer.WriteValueSafe(isEmpty);
+            writer.WriteValueSafe(isEmpty ? null : value.Item);
 
-            // If the item stack is not empty then write all it's data
-            if (!isEmpty)
-                value.Serialize(writer);
+            // If the ItemStack is not empty then serialize it's data
+            if (!isEmpty) value.Serialize(writer);
 
         }
 
@@ -168,22 +159,14 @@ namespace Sacados.Items {
         /// <param name="value">The <see cref="ItemStack"/> that got read</param>
         public static void ReadValueSafe(this FastBufferReader reader, out ItemStack value) {
 
-            // If the item stack is empty then just return null
-            reader.ReadValueSafe(out bool isEmpty);
-            if (isEmpty) {
-                value = null;
-                return;
-            }
-
-            // Read the item and then restore the reader's position
-            // => That let's the item stack read properly all it's data
-            int initialPosition = reader.Position;
+            // If the ItemStack is empty then return null
             reader.ReadValueSafe(out Item item);
-            reader.Seek(initialPosition);
-
-            // Create it's corresponding ItemStack and deserialize it
-            value = item.CreateItemStack();
-            value.Deserialize(reader);
+            if (item == null) value = null;
+            // If the ItemStack isn't empty then return it with it's deserialized data
+            else {
+                value = item.CreateItemStack();
+                value.Deserialize(reader);
+            }
 
         }
 

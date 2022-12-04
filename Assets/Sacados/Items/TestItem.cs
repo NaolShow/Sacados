@@ -23,16 +23,14 @@ namespace Assets.Sacados.Items {
             Value = itemStack.Value;
         }
 
-        public override bool Serialize(FastBufferWriter writer) {
-            if (base.Serialize(writer))
-                writer.WriteValueSafe(in Value);
-            return true;
+        public override void Serialize(FastBufferWriter writer) {
+            base.Serialize(writer);
+            writer.WriteValueSafe(in Value);
         }
 
-        public override bool Deserialize(FastBufferReader reader) {
-            if (base.Deserialize(reader))
-                reader.ReadValueSafe(out Value);
-            return true;
+        public override void Deserialize(FastBufferReader reader) {
+            base.Deserialize(reader);
+            reader.ReadValueSafe(out Value);
         }
 
         public override ItemStack Clone() => new TestItemStack(this);
