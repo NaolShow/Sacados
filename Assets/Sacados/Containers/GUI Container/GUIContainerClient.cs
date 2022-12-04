@@ -1,9 +1,9 @@
 ﻿#if IS_CLIENT
 
-using MLAPI.NetworkVariable.Collections;
 using Sacados.Items;
 using Sacados.Slots;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Sacados.Containers {

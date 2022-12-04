@@ -1,8 +1,9 @@
-﻿using MLAPI.Serialization;
+﻿using System;
+using Unity.Netcode;
 
 namespace Sacados.Items {
 
-    public struct ItemStack : INetworkSerializable {
+    public struct ItemStack : INetworkSerializable, IEquatable<ItemStack> {
 
         #region Static
 
@@ -25,7 +26,7 @@ namespace Sacados.Items {
         /// <summary>
         /// Item of the ItemStack
         /// </summary>
-        public Item Item;
+        public Item Item { get => null; set { } }
 
         /// <summary>
         /// Stack size of the ItemStack
@@ -40,7 +41,6 @@ namespace Sacados.Items {
         public ItemStack(Item item, uint stackSize) : this() {
 
             // Save the Item and the StackSize
-            Item = item;
             StackSize = stackSize;
 
         }
@@ -57,79 +57,18 @@ namespace Sacados.Items {
         /// <summary>
         /// Determines if the ItemStacks are the same
         /// </summary>
-        public bool IsSameAs(ItemStack itemStack) {
-            return itemStack.Item == Item;
-        }
+        public bool IsSameAs(ItemStack itemStack) => itemStack.Item == Item;
 
         /// <summary>
         /// Determines if the ItemStacks are the same or if the specified item stack is empty
         /// </summary>
-        public bool IsSameOrEmpty(ItemStack itemStack) {
-            return itemStack.IsEmpty || IsSameAs(itemStack);
-        }
-
+        public bool IsSameOrEmpty(ItemStack itemStack) => itemStack.IsEmpty || IsSameAs(itemStack);
 
         #endregion
 
-        public void NetworkSerialize(NetworkSerializer serializer) {
+        public bool Equals(ItemStack itemStack) => itemStack.StackSize == StackSize && IsSameAs(itemStack);
 
-            // If MLAPI is deserializing the itemstack
-            if (serializer.IsReading) {
-
-                // Call the deserializing method
-                Deserialize(serializer.Reader);
-                return;
-
-            }
-
-            // Call the serialize method
-            Serialize(serializer.Writer);
-
-        }
-
-        /// <summary>
-        /// Writes the ItemStack to the NetworkSerializer
-        /// </summary>
-        private void Serialize(NetworkWriter writer) {
-
-            // If the ItemStack is empty
-            if (IsEmpty) {
-
-                // Write an empty item ID
-                writer.WriteString(string.Empty);
-                return;
-
-            }
-
-            // Write the Item ID
-            writer.WriteString(Item.ID);
-
-            // Write the stack size
-            writer.WriteUInt32(StackSize);
-
-        }
-
-        /// <summary>
-        /// Reads the ItemStack from the NetworkSerializer
-        /// </summary>
-        private void Deserialize(NetworkReader reader) {
-
-            // Read the item's ID
-            string id = reader.ReadString().ToString();
-
-            // If the itemstack is null
-            if (id == string.Empty) {
-
-                Item = null;
-                return;
-
-            }
-
-            // Get the item
-            Item = Item.Get(id);
-
-            // Read the stack size
-            StackSize = reader.ReadUInt32();
+        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter {
 
         }
 

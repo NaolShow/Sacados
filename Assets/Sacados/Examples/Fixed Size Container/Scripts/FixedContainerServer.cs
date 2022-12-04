@@ -15,7 +15,7 @@ namespace Sacados.Examples.FixedContainer {
           * 
           **/
 
-        public override void NetworkStart() {
+        public override void OnNetworkSpawn() {
 
             // If it's not the server
             if (!NetworkManager.IsServer) return;

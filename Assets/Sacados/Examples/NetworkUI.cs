@@ -1,6 +1,6 @@
-﻿using MLAPI;
-using MLAPI.SceneManagement;
+﻿using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Sacados.Examples {
 
@@ -12,7 +12,7 @@ namespace Sacados.Examples {
         public string SceneName;
 
         // Switch to another scene when the server is started
-        public void Start() => NetworkManager.Singleton.OnServerStarted += () => NetworkSceneManager.SwitchScene(SceneName);
+        public void Start() => NetworkManager.Singleton.OnServerStarted += () => NetworkManager.Singleton.SceneManager.LoadScene(SceneName, LoadSceneMode.Single);
 
     }
 

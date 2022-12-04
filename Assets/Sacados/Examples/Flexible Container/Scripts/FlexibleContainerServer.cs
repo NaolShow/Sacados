@@ -9,7 +9,7 @@ namespace Sacados.Examples.FlexibleContainer {
 
     public partial class FlexibleContainer : GUIContainer {
 
-        public override void NetworkStart() {
+        public override void OnNetworkSpawn() {
 
             // If it's not the server
             if (!NetworkManager.IsServer) return;
