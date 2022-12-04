@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Sacados/Examples/Fixed Size Container/Scenes/FixedOffline.unity
-    guid: 01efce2a79cb20749b480144eea49852
+    path: Assets/Sacados/Examples/Flexible Container/Scenes/FlexibleOffline.unity
+    guid: c480105c9c6987946baac8a68b8da982
   - enabled: 1
-    path: Assets/Sacados/Examples/Fixed Size Container/Scenes/FixedOnline.unity
-    guid: c78a646d92e3c52428a124fde39dd2ac
+    path: Assets/Sacados/Examples/Flexible Container/Scenes/FlexibleOnline.unity
+    guid: 03ecad17c8099ba4eb9b6aade0529282
   m_configObjects: {}
