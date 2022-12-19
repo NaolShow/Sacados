@@ -4,6 +4,44 @@ using Unity.Netcode;
 namespace Sacados.Items {
 
     /// <summary>
+    /// Represents individual data about <see cref="{T}"/>
+    /// </summary>
+    /// <typeparam name="T"><see cref="Sacados.Items.Item"/> that the <see cref="ItemStack"/> stores</typeparam>
+    public abstract class ItemStack<T> : ItemStack where T : Item {
+
+        /// <summary>
+        /// Represents the <see cref="{T}"/> of the <see cref="ItemStack{T}"/>
+        /// </summary>
+        public new T Item { get => (T)base.Item; set => base.Item = value; }
+
+        #region Constructors
+
+        /// <summary>
+        /// Creates an empty <see cref="ItemStack"/> (prefer using <see cref="null"/> instead)
+        /// </summary>
+        public ItemStack() { }
+
+        /// <summary>
+        /// Creates an <see cref="ItemStack"/> that copies all the values of the specified one
+        /// </summary>
+        /// <param name="original">The <see cref="ItemStack"/> that will be copied</param>
+        public ItemStack(ItemStack original) : base(original) { }
+
+        /// <summary>
+        /// Creates an <see cref="ItemStack"/> with the specified <see cref="Item"/> and <see cref="StackSize"/>
+        /// </summary>
+        public ItemStack(Item item, uint stackSize) : base(item, stackSize) { }
+
+        /// <summary>
+        /// Creates an <see cref="ItemStack"/> with the specified <see cref="Item"/> and it's <see cref="Item.MaxStackSize"/> as the <see cref="ItemStack.StackSize"/>
+        /// </summary>
+        public ItemStack(Item item) : base(item) { }
+
+        #endregion
+
+    }
+
+    /// <summary>
     /// Represents an <see cref="Item"/> instance that have a <see cref="StackSize"/> and other personal values
     /// </summary>
     public class ItemStack {
@@ -158,6 +196,9 @@ namespace Sacados.Items {
         /// <param name="reader">The <see cref="FastBufferReader"/> that contains the <see cref="ItemStack"/></param>
         /// <param name="value">The <see cref="ItemStack"/> that got read</param>
         public static void ReadValueSafe(this FastBufferReader reader, out ItemStack value) {
+
+            // TODO: Fix this since now we can't use Serialize or Deserialize of ItemStacks
+            // => Wouldn't serialize Item
 
             // If the ItemStack is empty then return null
             reader.ReadValueSafe(out Item item);
