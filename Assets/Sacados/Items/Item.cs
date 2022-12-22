@@ -83,6 +83,16 @@ namespace Sacados.Items {
         /// <returns>The <see cref="ItemStack"/> reference</returns>
         public virtual ItemStack CreateItemStack() => new ItemStack(this);
 
+        // Two Items are the same if their IDs matches
+        public override bool Equals(object other) => other is Item item && item.HashedID == HashedID;
+        public override int GetHashCode() => HashedID.GetHashCode();
+
+        /// <summary>
+        /// Returns the <see cref="Item.ID"/>
+        /// </summary>
+        /// <returns>The <see cref="Item.ID"/></returns>
+        public override string ToString() => ID;
+
     }
 
     /// <summary>
