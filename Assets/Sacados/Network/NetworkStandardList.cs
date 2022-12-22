@@ -68,10 +68,6 @@ namespace Unity.Netcode {
 
         #endregion
 
-        #region Read & Write
-
-        #endregion
-
         public override void WriteDelta(FastBufferWriter writer) {
 
             if (base.IsDirty()) {
@@ -119,6 +115,9 @@ namespace Unity.Netcode {
                 NetworkVariableSerialization<TCast>.Read(reader, ref value);
                 list.Add((TOriginal)value);
             }
+            OnListChanged?.Invoke(new NetworkListEvent<TOriginal>() {
+                Type = NetworkListEvent<TOriginal>.EventType.Full
+            });
         }
 
         public override void ReadDelta(FastBufferReader reader, bool keepDirtyDelta) {

@@ -14,11 +14,11 @@ namespace Sacados {
         /// <param name="container">The <see cref="IContainer{T}"/> that contains the <see cref="ItemStack"/></param>
         /// <param name="itemStack">The <see cref="ItemStack"/> that will be counted</param>
         /// <returns>The total number of <see cref="ItemStack"/> that is in the <see cref="IContainer{T}"/></returns>
-        public static ulong GetCount<T>(this IContainer<T> container, T itemStack) where T : ItemStack {
+        public static ulong GetCount(this IContainer container, ItemStack itemStack) {
 
             ulong count = 0;
-            for (int i = 0; i < container.Slots.Count; i++)
-                count += container.Slots[i].GetCount(itemStack);
+            for (int i = 0; i < container.SlotsCount; i++)
+                count += container.Get(i).GetCount(itemStack);
             return count;
 
         }
@@ -30,11 +30,11 @@ namespace Sacados {
         /// <param name="container">The <see cref="IContainer{T}"/> that contains the <see cref="ItemStack"/></param>
         /// <param name="itemStack">The <see cref="ItemStack"/> that will get it's remaining space counted</param>
         /// <returns>The remaining space for <see cref="ItemStack"/> in the <see cref="IContainer{T}"/></returns>
-        public static ulong GetSpace<T>(this IContainer<T> container, T itemStack) where T : ItemStack {
+        public static ulong GetSpace(this IContainer container, ItemStack itemStack) {
 
             ulong count = 0;
-            for (int i = 0; i < container.Slots.Count; i++)
-                count += container.Slots[i].GetSpace(itemStack);
+            for (int i = 0; i < container.SlotsCount; i++)
+                count += container.Get(i).GetSpace(itemStack);
             return count;
 
         }

@@ -1,35 +1,60 @@
 ﻿using Sacados.Items;
 using System;
-using System.Collections.Generic;
-using Unity.Netcode;
 
 namespace Sacados {
 
-    /// <summary>
-    /// Represents a <see cref="IContainer{T}"/> that contains multiple <see cref="ISlot{T}"/> and <see cref="ItemStack{T}"/>
-    /// </summary>
+    /// <inheritdoc cref="IContainer"/>
     /// <typeparam name="T">Type of <see cref="ItemStack{T}"/></typeparam>
-    public interface IContainer<T> : IEnumerable<T>, IStackContainer<T> where T : ItemStack {
+    public interface IContainer<T> : IContainer, IStackContainer<T> where T : ItemStack {
+
+        /// <inheritdoc cref="IContainer.this"/>
+        new T this[int i] { get; set; }
+
+        /// <inheritdoc cref="IContainer.Get(int)"/>
+        new ISlot<T> Get(int index);
+
+    }
+
+    /// <summary>
+    /// Represents a <see cref="IContainer"/> that contains multiple <see cref="ISlot"/> and <see cref="ItemStack"/>
+    /// </summary>
+    public interface IContainer : IStackContainer {
 
         /// <summary>
-        /// Sets or gets the <see cref="ItemStack"/> at the i-th position in the <see cref="IContainer{T}"/><br/>
-        /// <br/>
-        /// Setting the <see cref="ItemStack"/> through this property doesn't makes any validation with it's <see cref="ISlot{T}"/><br/>
-        /// If you want to set an <see cref="ItemStack"/> and do the <see cref="ISlot{T}"/> validation then set it through the <see cref="ISlot{T}.ItemStack"/>
+        /// Determines the number of <see cref="ISlot"/> in the <see cref="IContainer"/>
         /// </summary>
-        /// <param name="i">The position where we want the <see cref="ItemStack"/></param>
-        /// <returns>Reference of the <see cref="ItemStack"/></returns>
-        T this[int i] { get; set; }
+        int SlotsCount { get; }
 
         /// <summary>
-        /// Determines all the <see cref="ISlot{T}"/> of the <see cref="IContainer{T}"/>
+        /// Accessor to the <see cref="ItemStack"/> at the specified index in the <see cref="IContainer"/><br/>
+        /// Setting the <see cref="ItemStack"/> through this property doesn't make any validation with it's <see cref="ISlot"/>
         /// </summary>
-        IReadOnlyList<ISlot<T>> Slots { get; }
+        /// <param name="i">The i-th position of the <see cref="ItemStack"/></param>
+        /// <returns>The <see cref="ItemStack"/> at the specified index</returns>
+        ItemStack this[int i] { get; set; }
 
         /// <summary>
-        /// Called when any operations about <see cref="ItemStack"/> occurs on the <see cref="IContainer{T}"/>
+        /// Gets the <see cref="ISlot"/> at the specified index in the <see cref="IContainer"/>
         /// </summary>
-        event Action<NetworkListEvent<T>> OnChanged;
+        /// <param name="index">The index of the specified <see cref="ISlot"/></param>
+        /// <returns>The <see cref="ISlot"/> at the specified index</returns>
+        ISlot Get(int index);
+
+        /// <summary>
+        /// Called when any operations about <see cref="ItemStack"/> occurs on the <see cref="IContainer"/>
+        /// </summary>
+        event OnContainerUpdateDelegate OnUpdate;
+        delegate void OnContainerUpdateDelegate(ContainerEventType type, int index);
+
+        /// <summary>
+        /// Called when the <see cref="IContainer"/> started and is now ready to be used
+        /// </summary>
+        event Action OnStarted;
+        /// <summary>
+        /// Called when the <see cref="IContainer"/> stopped and is no longer ready to be used
+        /// </summary>
+        event Action OnStopped;
+
 
     }
 
