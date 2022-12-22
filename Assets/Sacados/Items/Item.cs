@@ -13,10 +13,16 @@ namespace Sacados.Items {
 #endif
     public class Item : ScriptableObject {
 
-        // Register the serialization methods for the items
+        // This should get called automatically when registering any Item
         static Item() {
+
+            // Register the serialization methods for the items and itemstacks
             UserNetworkVariableSerialization<Item>.WriteValue = ItemNetworkExtensions.WriteValueSafe;
             UserNetworkVariableSerialization<Item>.ReadValue = ItemNetworkExtensions.ReadValueSafe;
+
+            UserNetworkVariableSerialization<ItemStack>.WriteValue = ItemStackNetworkExtensions.WriteValueSafe;
+            UserNetworkVariableSerialization<ItemStack>.ReadValue = ItemStackNetworkExtensions.ReadValueSafe;
+
         }
 
         #region Registry
@@ -52,7 +58,7 @@ namespace Sacados.Items {
         /// <summary>
         /// Tries to get a registered <see cref="Item"/> corresponding with the specified <see cref="Item.HashedID"/>
         /// </summary>
-        /// <param name="itemID">The <see cref="Item.ID"/> of the <see cref="Item"/> that you try to get</param>
+        /// <param name="hashedItemID">The <see cref="Item.HashedID"/> of the <see cref="Item"/> that you try to get</param>
         /// <returns>Null if the <see cref="Item"/> cannot be found or the <see cref="Item"/>'s reference if it has been found</returns>
         public static Item Get(ulong hashedItemID) => registry.TryGetValue(hashedItemID, out Item item) ? item : null;
 
@@ -77,11 +83,24 @@ namespace Sacados.Items {
         /// </summary>
         [field: SerializeField] public Sprite Sprite { get; set; }
 
-        /// <summary>
-        /// Creates an <see cref="ItemStack"/> for the <see cref="Item"/>
-        /// </summary>
-        /// <returns>The <see cref="ItemStack"/> reference</returns>
+        #region Create ItemStack
+
+        /// <inheritdoc cref="ItemStack(Item)"/>
+        /// <returns>The new <see cref="ItemStack"/> that contains the <see cref="Item"/></returns>
         public virtual ItemStack CreateItemStack() => new ItemStack(this);
+
+        /// <summary>
+        /// Creates an <see cref="ItemStack"/> for the <see cref="Item"/> with the specified stack size
+        /// </summary>
+        /// <param name="stackSize">The stack size of the <see cref="ItemStack"/></param>
+        /// <returns>The new <see cref="ItemStack"/> that contains the <see cref="Item"/></returns>
+        public ItemStack CreateItemStack(uint stackSize) {
+            ItemStack itemStack = CreateItemStack();
+            itemStack.StackSize = stackSize;
+            return itemStack;
+        }
+
+        #endregion
 
         // Two Items are the same if their IDs matches
         public override bool Equals(object other) => other is Item item && item.HashedID == HashedID;

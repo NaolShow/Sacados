@@ -1,5 +1,4 @@
-﻿using System;
-using Unity.Netcode;
+﻿using Unity.Netcode;
 
 namespace Sacados.Items {
 
@@ -16,26 +15,11 @@ namespace Sacados.Items {
 
         #region Constructors
 
-        /// <summary>
-        /// Creates an empty <see cref="ItemStack"/> (prefer using <see cref="null"/> instead)
-        /// </summary>
-        public ItemStack() { }
+        /// <inheritdoc cref="ItemStack(Item)"/>
+        public ItemStack(T item) : base(item) { }
 
-        /// <summary>
-        /// Creates an <see cref="ItemStack"/> that copies all the values of the specified one
-        /// </summary>
-        /// <param name="original">The <see cref="ItemStack"/> that will be copied</param>
+        /// <inheritdoc cref="ItemStack(ItemStack)"/>
         public ItemStack(ItemStack original) : base(original) { }
-
-        /// <summary>
-        /// Creates an <see cref="ItemStack"/> with the specified <see cref="Item"/> and <see cref="StackSize"/>
-        /// </summary>
-        public ItemStack(Item item, uint stackSize) : base(item, stackSize) { }
-
-        /// <summary>
-        /// Creates an <see cref="ItemStack"/> with the specified <see cref="Item"/> and it's <see cref="Item.MaxStackSize"/> as the <see cref="ItemStack.StackSize"/>
-        /// </summary>
-        public ItemStack(Item item) : base(item) { }
 
         #endregion
 
@@ -46,37 +30,10 @@ namespace Sacados.Items {
     /// </summary>
     public class ItemStack {
 
-        // Register the serialization methods for the itemstacks
-        static ItemStack() {
-            UserNetworkVariableSerialization<ItemStack>.WriteValue = ItemStackNetworkExtensions.WriteValueSafe;
-            UserNetworkVariableSerialization<ItemStack>.ReadValue = ItemStackNetworkExtensions.ReadValueSafe;
-        }
-
         /// <summary>
-        /// <see cref="Item"/> of the <see cref="ItemStack"/>
+        /// <see cref="Item"/> contained in the <see cref="ItemStack"/>
         /// </summary>
-        public Item Item {
-            get => item; set {
-
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-
-                // If the item is not null
-                if (value != null) {
-
-                    // If the item shouldn't be assigned to this type of ItemStack
-                    Type assignedType = value.CreateItemStack().GetType();
-                    Type requiredType = GetType();
-                    if (requiredType != assignedType)
-                        throw new ArgumentException($"Trying to assign the {nameof(Item)} '{value.ID}' to {assignedType.Name} instead of {requiredType.Name} (this could cause synchronization errors!)");
-
-                }
-#endif
-
-                item = value;
-
-            }
-        }
-        private Item item;
+        public Item Item { get; set; }
 
         /// <summary>
         /// <see cref="StackSize"/> of the <see cref="ItemStack"/>
@@ -87,9 +44,17 @@ namespace Sacados.Items {
         #region Constructors
 
         /// <summary>
-        /// Creates an empty <see cref="ItemStack"/> (prefer using <see cref="null"/> instead)
+        /// Creates an empty <see cref="ItemStack"/> (prefer using <see cref="null"/> instead for no allocation)
         /// </summary>
         public ItemStack() { }
+
+        /// <summary>
+        /// Creates an <see cref="ItemStack"/> with the specified <see cref="Item"/> and with it's <see cref="Item.MaxStackSize"/> as the <see cref="StackSize"/>
+        /// </summary>
+        public ItemStack(Item item) {
+            Item = item;
+            stackSize = item.MaxStackSize;
+        }
 
         /// <summary>
         /// Creates an <see cref="ItemStack"/> that copies all the values of the specified one
@@ -100,28 +65,12 @@ namespace Sacados.Items {
             StackSize = original.StackSize;
         }
 
-        /// <summary>
-        /// Creates an <see cref="ItemStack"/> with the specified <see cref="Item"/> and <see cref="StackSize"/>
-        /// </summary>
-        public ItemStack(Item item, uint stackSize) {
-
-            // Save the Item and it's Stack Size
-            this.item = item;
-            this.stackSize = stackSize;
-
-        }
-
-        /// <summary>
-        /// Creates an <see cref="ItemStack"/> with the specified <see cref="Item"/> and it's <see cref="Item.MaxStackSize"/> as the <see cref="ItemStack.StackSize"/>
-        /// </summary>
-        public ItemStack(Item item) : this(item, (item == null) ? 0 : item.MaxStackSize) { }
-
         #endregion
 
         /// <summary>
         /// Determines if both the <see cref="ItemStack"/> are the same (can be combined in a single <see cref="ItemStack"/>)
         /// </summary>
-        public virtual bool IsSameAs(ItemStack itemStack) => itemStack.Item == Item;
+        public virtual bool IsSameAs(ItemStack itemStack) => ReferenceEquals(Item, itemStack.Item);
 
         /// <summary>
         /// Serializes the <see cref="ItemStack"/> into the specified <see cref="FastBufferWriter"/>
@@ -158,14 +107,6 @@ namespace Sacados.Items {
         /// <param name="itemStack">The <see cref="ItemStack"/> that might be empty</param>
         /// <returns>True if the <see cref="ItemStack"/> is empty</returns>
         public static bool IsEmpty(this ItemStack itemStack) => itemStack == null || ReferenceEquals(itemStack.Item, null) || itemStack.StackSize == 0;
-
-        /// <summary>
-        /// Determines if the <see cref="ItemStack"/> is empty or if it the same as the other one
-        /// </summary>
-        /// <param name="possiblyEmpty">The <see cref="ItemStack"/> that might be empty</param>
-        /// <param name="other">The other <see cref="ItemStack"/> that might the same of the other one</param>
-        /// <returns>True if either the <see cref="ItemStack"/> is empty or if they are the same</returns>
-        public static bool IsEmptyOrSame(this ItemStack possiblyEmpty, ItemStack other) => possiblyEmpty.IsEmpty() || possiblyEmpty.IsSameAs(other);
 
     }
 
