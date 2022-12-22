@@ -36,14 +36,16 @@ namespace Sacados {
 
             uint space = 0;
 
-            // If the ItemStack can be given in the slot
+            // If the ItemStack can be given to the slot
             if (slot.CanBeGiven(itemStack)) {
-
                 ItemStack slotItemStack = slot.ItemStack;
-                space = slot.GetMaxStackSize(itemStack);
 
-                // If the slot ItemStack isn't empty then decrease the stack sze
-                if (!slotItemStack.IsEmpty()) space -= slotItemStack.StackSize;
+                // If the slot's ItemStack is empty then it's the max stack size
+                if (slotItemStack.IsEmpty())
+                    space = slot.GetMaxStackSize(itemStack);
+                // If the ItemStacks are the same then it's the max stack size decreased by the current stack size
+                else if (slotItemStack.IsSameAs(itemStack))
+                    space = slot.GetMaxStackSize(itemStack) - slotItemStack.StackSize;
 
             }
             return space;
