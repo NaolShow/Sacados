@@ -11,7 +11,7 @@ namespace Sacados {
 
         }
 
-        public new T ItemStack { get => (T)base.ItemStack; set => base.ItemStack = value; }
+        public virtual new T ItemStack { get => (T)base.ItemStack; set => base.ItemStack = value; }
 
         // User implementation
         public virtual uint GetMaxStackSize(T itemStack) => base.GetMaxStackSize(itemStack);
@@ -24,21 +24,21 @@ namespace Sacados {
         public virtual bool CanBeTaken(T itemStack) => true;
 
         // Converts the ItemStack to T and call the new methods
-        public override uint GetMaxStackSize(ItemStack itemStack)
+        public sealed override uint GetMaxStackSize(ItemStack itemStack)
             => itemStack == null ? GetMaxStackSize(null) : itemStack is T otherItemStack ? GetMaxStackSize(otherItemStack) : 0;
 
-        public override void Give(ItemStack itemStack) {
+        public sealed override void Give(ItemStack itemStack) {
             if (itemStack is T)
                 base.Give(itemStack);
         }
-        public override void Take(ItemStack itemStack) {
+        public sealed override void Take(ItemStack itemStack) {
             if (itemStack is T)
                 base.Take(itemStack);
         }
 
-        public override bool CanBeGiven(ItemStack itemStack)
+        public sealed override bool CanBeGiven(ItemStack itemStack)
             => itemStack == null ? CanBeGiven(null) : itemStack is T otherItemStack ? CanBeGiven(otherItemStack) : false;
-        public override bool CanBeTaken(ItemStack itemStack)
+        public sealed override bool CanBeTaken(ItemStack itemStack)
             => itemStack == null ? CanBeTaken(null) : itemStack is T otherItemStack ? CanBeTaken(otherItemStack) : false;
 
     }

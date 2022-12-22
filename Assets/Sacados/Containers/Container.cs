@@ -21,18 +21,18 @@ namespace Sacados {
         public virtual bool CanBeTaken(T itemStack) => true;
 
         // Converts the ItemStack to T and call the new methods
-        public override void Give(ItemStack itemStack) {
+        public sealed override void Give(ItemStack itemStack) {
             if (itemStack is T otherItemStack)
                 Give(otherItemStack);
         }
-        public override void Take(ItemStack itemStack) {
+        public sealed override void Take(ItemStack itemStack) {
             if (itemStack is T otherItemStack)
                 Take(otherItemStack);
         }
 
-        public override bool CanBeGiven(ItemStack itemStack)
+        public sealed override bool CanBeGiven(ItemStack itemStack)
             => itemStack == null ? CanBeGiven(null) : itemStack is T otherItemStack ? CanBeGiven(otherItemStack) : false;
-        public override bool CanBeTaken(ItemStack itemStack)
+        public sealed override bool CanBeTaken(ItemStack itemStack)
             => itemStack == null ? CanBeGiven(null) : itemStack is T otherItemStack ? CanBeTaken(otherItemStack) : false;
 
     }
