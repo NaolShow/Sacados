@@ -1,6 +1,6 @@
 ﻿using Unity.Netcode;
 
-namespace Sacados.Items {
+namespace Sacados {
 
     /// <summary>
     /// Represents individual data about <see cref="{T}"/>

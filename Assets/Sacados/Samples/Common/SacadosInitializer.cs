@@ -1,5 +1,4 @@
-﻿using Sacados.Items;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Sacados.Samples {
 

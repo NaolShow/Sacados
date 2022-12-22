@@ -1,6 +1,4 @@
-﻿using Sacados.Items;
-
-namespace Sacados {
+﻿namespace Sacados {
 
     /// <summary>
     /// Represents a <see cref="ISlotUI"/> that will display a specific <see cref="ItemStack"/>

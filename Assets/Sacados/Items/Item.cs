@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Sacados.Items {
+namespace Sacados {
 
     /// <summary>
     /// Represents an <see cref="Item"/> data that have common and constant values

@@ -1,6 +1,4 @@
-﻿using Sacados.Items;
-
-namespace Sacados {
+﻿namespace Sacados {
 
     /// <inheritdoc cref="IStackContainer"/>
     /// <typeparam name="T">Type of <see cref="ItemStack{T}"/></typeparam>

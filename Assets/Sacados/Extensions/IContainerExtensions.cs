@@ -1,6 +1,4 @@
-﻿using Sacados.Items;
-
-namespace Sacados {
+﻿namespace Sacados {
 
     /// <summary>
     /// Extensions methods for the <see cref="IContainer{T}"/> interface
