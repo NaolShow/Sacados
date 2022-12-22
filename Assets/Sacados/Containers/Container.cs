@@ -97,11 +97,12 @@ namespace Sacados {
         /// Adds the specified <see cref="ISlot"/> to the <see cref="Container"/>
         /// </summary>
         /// <param name="slot">The <see cref="ISlot"/> that will be added</param>
-        protected void AddSlot(ISlot slot) {
+        /// <param name="itemStack">The <see cref="ItemStack"/> that will be added</param>
+        protected void AddSlot(ISlot slot, ItemStack itemStack = null) {
 
             // Insert the slot and also it's ItemStack if we are the server and spawned
             slots.Insert(slot.Index, slot);
-            if (IsSpawned && IsServer) itemStacks.Insert(slot.Index, null);
+            if (IsSpawned && IsServer) itemStacks.Insert(slot.Index, itemStack?.Clone());
 
             // Reorder the slots indexes only if the added slot isn't at the end
             for (int i = slot.Index; i < slots.Count; i++)
