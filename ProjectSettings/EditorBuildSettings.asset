@@ -4,11 +4,5 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes:
-  - enabled: 1
-    path: Assets/Sacados/Examples/Fixed Size Container/Scenes/FixedOffline.unity
-    guid: 01efce2a79cb20749b480144eea49852
-  - enabled: 1
-    path: Assets/Sacados/Examples/Fixed Size Container/Scenes/FixedOnline.unity
-    guid: c78a646d92e3c52428a124fde39dd2ac
+  m_Scenes: []
   m_configObjects: {}
