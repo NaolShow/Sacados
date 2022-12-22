@@ -157,7 +157,7 @@ namespace Sacados.Items {
         /// </summary>
         /// <param name="itemStack">The <see cref="ItemStack"/> that might be empty</param>
         /// <returns>True if the <see cref="ItemStack"/> is empty</returns>
-        public static bool IsEmpty(this ItemStack itemStack) => itemStack == null || itemStack.Item == null || itemStack.StackSize == 0;
+        public static bool IsEmpty(this ItemStack itemStack) => itemStack == null || ReferenceEquals(itemStack.Item, null) || itemStack.StackSize == 0;
 
         /// <summary>
         /// Determines if the <see cref="ItemStack"/> is empty or if it the same as the other one
