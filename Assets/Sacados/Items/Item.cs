@@ -19,9 +19,11 @@ namespace Sacados {
             // Register the serialization methods for the items and itemstacks
             UserNetworkVariableSerialization<Item>.WriteValue = ItemNetworkExtensions.WriteValueSafe;
             UserNetworkVariableSerialization<Item>.ReadValue = ItemNetworkExtensions.ReadValueSafe;
+            UserNetworkVariableSerialization<Item>.DuplicateValue = (in Item item, ref Item copyItem) => copyItem = item;
 
             UserNetworkVariableSerialization<ItemStack>.WriteValue = ItemStackNetworkExtensions.WriteValueSafe;
             UserNetworkVariableSerialization<ItemStack>.ReadValue = ItemStackNetworkExtensions.ReadValueSafe;
+            UserNetworkVariableSerialization<ItemStack>.DuplicateValue = (in ItemStack itemStack, ref ItemStack copyItemStack) => copyItemStack = itemStack;
 
         }
 

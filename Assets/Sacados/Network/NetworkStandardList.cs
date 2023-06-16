@@ -339,7 +339,8 @@ namespace Unity.Netcode {
         private void HandleEvent(NetworkListEvent<TOriginal> listEvent) {
 
             // Indicates to netcode that the behaviour is now dirty
-            m_NetworkBehaviour.NetworkManager.MarkNetworkObjectDirty(m_NetworkBehaviour.NetworkObject);
+            if (m_NetworkBehaviour != null && m_NetworkBehaviour.IsSpawned)
+                m_NetworkBehaviour.NetworkManager.BehaviourUpdater.AddForUpdate(m_NetworkBehaviour.NetworkObject);
 
             // Store the new event and trigger it
             dirtyEvents.Add(listEvent);
