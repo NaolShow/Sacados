@@ -44,9 +44,6 @@ namespace Sacados {
         /// <param name="value">The <see cref="ItemStack"/> that got read</param>
         public static void ReadValueSafe(this FastBufferReader reader, out ItemStack value) {
 
-            // TODO: Fix this since now we can't use Serialize or Deserialize of ItemStacks
-            // => Wouldn't serialize Item
-
             // If the ItemStack is empty then return null
             reader.ReadValueSafe(out Item item);
             if (item == null) value = null;

@@ -1,7 +1,7 @@
 ﻿namespace Sacados {
 
     /// <summary>
-    /// Extensions methods for the <see cref="ISlot{T}"/> interface
+    /// Extensions methods for the <see cref="ISlot"/> interface
     /// </summary>
     public static class ISlotExtensions {
 
