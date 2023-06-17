@@ -11,7 +11,12 @@ namespace Sacados {
         /// <summary>
         /// Represents the <see cref="{T}"/> of the <see cref="ItemStack{T}"/>
         /// </summary>
-        public new T Item { get => (T)base.Item; set => base.Item = value; }
+        public new T Item { get => (T)GetItem(); set => SetItem(value); }
+
+        protected override void SetItem(Item itemStack) {
+            if (itemStack is T)
+                base.SetItem(itemStack);
+        }
 
         #region Constructors
 
@@ -33,7 +38,8 @@ namespace Sacados {
         /// <summary>
         /// <see cref="Item"/> contained in the <see cref="ItemStack"/>
         /// </summary>
-        public Item Item { get; set; }
+        public Item Item { get => GetItem(); set => SetItem(value); }
+        private Item item;
 
         /// <summary>
         /// <see cref="StackSize"/> of the <see cref="ItemStack"/>
@@ -68,9 +74,28 @@ namespace Sacados {
         #endregion
 
         /// <summary>
+        /// Gets the contained <see cref="Item"/> from the <see cref="ItemStack"/>
+        /// Replaces the "get" override of the <see cref="Item"/> property, because overriding and hidding a property isn't possible at the same time
+        /// </summary>
+        /// <returns>The <see cref="ItemStack"/> contained <see cref="Item"/></returns>
+        protected virtual Item GetItem() => item;
+        /// <summary>
+        /// Sets the contained <see cref="Item"/> of the <see cref="ItemStack"/>
+        /// Replaces the "set" override of the <see cref="Item"/> property, because overriding and hidding a property isn't possible at the same time
+        /// </summary>
+        /// <returns>The <see cref="ItemStack"/> contained <see cref="Item"/></returns>
+        protected virtual void SetItem(Item itemStack) => item = itemStack;
+
+        /// <summary>
         /// Determines if both the <see cref="ItemStack"/> are the same (can be combined in a single <see cref="ItemStack"/>)
         /// </summary>
         public virtual bool IsSameAs(ItemStack itemStack) => ReferenceEquals(Item, itemStack.Item);
+
+        /// <summary>
+        /// Clones the <see cref="ItemStack"/>
+        /// </summary>
+        /// <returns>The cloned <see cref="ItemStack"/></returns>
+        public virtual ItemStack Clone() => new ItemStack(this);
 
         /// <summary>
         /// Serializes the <see cref="ItemStack"/> into the specified <see cref="FastBufferWriter"/>
@@ -87,12 +112,6 @@ namespace Sacados {
         public virtual void Deserialize(FastBufferReader reader) {
             reader.ReadValueSafe(out stackSize);
         }
-
-        /// <summary>
-        /// Clones the <see cref="ItemStack"/>
-        /// </summary>
-        /// <returns>The cloned <see cref="ItemStack"/></returns>
-        public virtual ItemStack Clone() => new ItemStack(this);
 
     }
 
