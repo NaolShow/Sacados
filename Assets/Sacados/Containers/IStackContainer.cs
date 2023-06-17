@@ -22,13 +22,13 @@
     public interface IStackContainer {
 
         /// <summary>
-        /// Gives the specified <see cref="ItemStack"/> to the <see cref="IStackContainer"/>
+        /// Gives the specified <see cref="ItemStack"/> to the <see cref="IStackContainer"/> and substracts the given amount from the <see cref="ItemStack.StackSize"/>
         /// </summary>
         /// <param name="itemStack">The <see cref="ItemStack"/> that will be given</param>
         /// <returns>The remaining <see cref="ItemStack"/> that couldn't be given</returns>
         void Give(ItemStack itemStack);
         /// <summary>
-        /// Takes the specified <see cref="ItemStack"/> from the <see cref="IStackContainer"/>
+        /// Takes the specified <see cref="ItemStack"/> from the <see cref="IStackContainer"/> and substracts the taken amount from the <see cref="ItemStack.StackSize"/>
         /// </summary>
         /// <param name="itemStack">The <see cref="ItemStack"/> that will be taken</param>
         /// <returns>The remaining <see cref="ItemStack"/> that couldn't be taken</returns>

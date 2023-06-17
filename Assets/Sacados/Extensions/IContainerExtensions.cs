@@ -37,6 +37,36 @@
 
         }
 
+        /// <summary>
+        /// Gives the specified <see cref="ItemStack"/> to the <see cref="IStackContainer"/> without making any change to the <see cref="ItemStack.StackSize"/><br/>
+        /// This way you can limit memory allocation if you have to give the same <see cref="ItemStack"/> multiple times
+        /// </summary>
+        /// <param name="container">The <see cref="IStackContainer"/> that will acquire the <see cref="ItemStack"/></param>
+        /// <returns>The amount of <see cref="ItemStack"/> that has been given to the <see cref="IStackContainer"/></returns>
+        /// <inheritdoc cref="IStackContainer.Give(ItemStack)"/>
+        public static ulong GiveUnchanged(this IStackContainer container, ItemStack itemStack) {
+            uint stackSize = itemStack.StackSize;
+            container.Give(itemStack);
+            uint newStackSize = itemStack.StackSize;
+            itemStack.StackSize = stackSize;
+            return stackSize - newStackSize;
+        }
+
+        /// <summary>
+        /// Takes the specified <see cref="ItemStack"/> from the <see cref="IStackContainer"/> without making any change to the <see cref="ItemStack.StackSize"/><br/>
+        /// This way you can limit memory allocation if you have to give the same <see cref="ItemStack"/> multiple times
+        /// </summary>
+        /// <param name="container">The <see cref="IStackContainer"/> that will dispose of the <see cref="ItemStack"/></param>
+        /// <returns>The amount of <see cref="ItemStack"/> that has been taken from the <see cref="IStackContainer"/></returns>
+        /// <inheritdoc cref="IStackContainer.Take(ItemStack)"/>
+        public static ulong TakeUnchanged(this IStackContainer container, ItemStack itemStack) {
+            uint stackSize = itemStack.StackSize;
+            container.Take(itemStack);
+            uint newStackSize = itemStack.StackSize;
+            itemStack.StackSize = stackSize;
+            return stackSize - newStackSize;
+        }
+
     }
 
 }
