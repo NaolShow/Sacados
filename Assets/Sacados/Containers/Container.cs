@@ -31,9 +31,9 @@ namespace Sacados {
         }
 
         public sealed override bool CanBeGiven(ItemStack itemStack)
-            => itemStack == null ? CanBeGiven(null) : itemStack is T otherItemStack ? CanBeGiven(otherItemStack) : false;
+            => itemStack == null ? CanBeGiven(null) : itemStack is T otherItemStack && CanBeGiven(otherItemStack);
         public sealed override bool CanBeTaken(ItemStack itemStack)
-            => itemStack == null ? CanBeGiven(null) : itemStack is T otherItemStack ? CanBeTaken(otherItemStack) : false;
+            => itemStack == null ? CanBeGiven(null) : itemStack is T otherItemStack && CanBeTaken(otherItemStack);
 
     }
 
@@ -47,7 +47,7 @@ namespace Sacados {
         public ISlot Get(int index) => slots[index];
 
         public ItemStack this[int i] { get => itemStacks[i]; set => itemStacks[i] = value; }
-        private NetworkStandardList<ItemStack> itemStacks = new NetworkStandardList<ItemStack>();
+        private readonly NetworkStandardList<ItemStack> itemStacks = new NetworkStandardList<ItemStack>();
 
         public event OnContainerUpdateDelegate OnUpdate;
         public event Action OnStarted;
