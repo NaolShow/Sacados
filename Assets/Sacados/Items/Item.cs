@@ -69,11 +69,18 @@ namespace Sacados {
         /// <summary>
         /// Determines the ID of the <see cref="Item"/> (can be used to identify the <see cref="Item"/> in-game)
         /// </summary>
-        [field: SerializeField] public string ID { get; set; }
+        [field: SerializeField] public string ID { get; private set; }
         /// <summary>
         /// Determines the hash of the <see cref="Item.ID"/> (used to synchronize the <see cref="Item"/> accross the network)
         /// </summary>
-        public ulong HashedID => XXHash.Hash64(ID);
+        public ulong HashedID {
+            get {
+                if (hashedID == null)
+                    hashedID = XXHash.Hash64(ID);
+                return (ulong)hashedID;
+            }
+        }
+        private ulong? hashedID = null;
 
         /// <summary>
         /// Determines the max stack size of the <see cref="Item"/> (maximum amount that can be stored in one single slot)
