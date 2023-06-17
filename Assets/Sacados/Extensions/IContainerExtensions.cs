@@ -44,7 +44,7 @@
         /// <param name="container">The <see cref="IStackContainer"/> that will acquire the <see cref="ItemStack"/></param>
         /// <returns>The amount of <see cref="ItemStack"/> that has been given to the <see cref="IStackContainer"/></returns>
         /// <inheritdoc cref="IStackContainer.Give(ItemStack)"/>
-        public static ulong GiveUnchanged(this IStackContainer container, ItemStack itemStack) {
+        public static uint GiveUnchanged(this IStackContainer container, ItemStack itemStack) {
             uint stackSize = itemStack.StackSize;
             container.Give(itemStack);
             uint newStackSize = itemStack.StackSize;
@@ -59,7 +59,7 @@
         /// <param name="container">The <see cref="IStackContainer"/> that will dispose of the <see cref="ItemStack"/></param>
         /// <returns>The amount of <see cref="ItemStack"/> that has been taken from the <see cref="IStackContainer"/></returns>
         /// <inheritdoc cref="IStackContainer.Take(ItemStack)"/>
-        public static ulong TakeUnchanged(this IStackContainer container, ItemStack itemStack) {
+        public static uint TakeUnchanged(this IStackContainer container, ItemStack itemStack) {
             uint stackSize = itemStack.StackSize;
             container.Take(itemStack);
             uint newStackSize = itemStack.StackSize;
