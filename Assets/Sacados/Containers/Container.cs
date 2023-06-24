@@ -43,7 +43,7 @@ namespace Sacados {
     public abstract class Container : NetworkBehaviour, IContainer {
 
         public int SlotsCount => itemStacks.Count;
-        protected readonly List<ISlot> slots = new List<ISlot>();
+        private readonly List<ISlot> slots = new List<ISlot>();
         public ISlot Get(int index) => slots[index];
 
         public ItemStack this[int i] { get => itemStacks[i]; set => itemStacks[i] = value; }

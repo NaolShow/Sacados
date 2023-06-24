@@ -18,7 +18,7 @@
         void Destroy();
 
         /// <summary>
-        /// Refreshes the <see cref="ISlotUI"/> after a change of it's <see cref="ItemStack"/>
+        /// Refreshes the <see cref="ISlotUI"/> after a change of its <see cref="ItemStack"/>
         /// </summary>
         void Refresh();
 

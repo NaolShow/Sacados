@@ -17,7 +17,7 @@ namespace Sacados {
         /// </summary>
         Remove,
         /// <summary>
-        /// When the <see cref="IContainer"/> updated an <see cref="ISlot"/> <see cref="ItemStack"/>
+        /// When the <see cref="IContainer"/> updated an <see cref="ISlot.ItemStack"/>
         /// </summary>
         Value,
         /// <summary>

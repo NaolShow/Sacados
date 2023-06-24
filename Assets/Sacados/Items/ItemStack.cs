@@ -5,7 +5,7 @@ namespace Sacados {
     /// <summary>
     /// Represents individual data about <see cref="{T}"/>
     /// </summary>
-    /// <typeparam name="T"><see cref="Sacados.Items.Item"/> that the <see cref="ItemStack"/> stores</typeparam>
+    /// <typeparam name="T"><see cref="Sacados.Item"/> that the <see cref="ItemStack"/> stores</typeparam>
     public abstract class ItemStack<T> : ItemStack where T : Item {
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Sacados {
         /// <param name="original">The <see cref="ItemStack"/> that will be copied</param>
         public ItemStack(ItemStack original) {
             Item = original.Item;
-            StackSize = original.StackSize;
+            stackSize = original.StackSize;
         }
 
         #endregion

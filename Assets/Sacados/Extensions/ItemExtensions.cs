@@ -9,7 +9,7 @@ namespace Sacados {
     public static class ItemNetworkExtensions {
 
         /// <summary>
-        /// Writes the <see cref="Item"/> inside the <see cref="FastBufferWriter"/> by simply writing it's <see cref="Item.HashedID"/>
+        /// Writes the <see cref="Item"/> inside the <see cref="FastBufferWriter"/> by simply writing its <see cref="Item.HashedID"/>
         /// </summary>
         /// <param name="writer">The <see cref="FastBufferWriter"/> that will contain the <see cref="Item"/></param>
         /// <param name="value">The <see cref="Item"/> that will get written</param>
@@ -24,7 +24,7 @@ namespace Sacados {
         }
 
         /// <summary>
-        /// Reads the <see cref="Item"/> from the <see cref="FastBufferReader"/> by simply getting it using it's <see cref="Item.HashedID"/>
+        /// Reads the <see cref="Item"/> from the <see cref="FastBufferReader"/> by simply getting it using its <see cref="Item.HashedID"/>
         /// </summary>
         /// <param name="reader">The <see cref="FastBufferReader"/> that contains the <see cref="Item"/></param>
         /// <param name="value">The <see cref="Item"/> that got read</param>

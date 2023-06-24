@@ -3,7 +3,7 @@
 namespace Sacados {
 
     /// <inheritdoc cref="Slot"/>
-    /// <typeparam name="T">Type of <see cref="ItemStack{T}"/></typeparam>
+    /// <typeparam name="T">Type of <see cref="Sacados.ItemStack"/></typeparam>
     public class Slot<T> : Slot, ISlot<T> where T : ItemStack {
 
         /// <inheritdoc cref="Slot(IContainer, int, uint)"/>
@@ -14,7 +14,7 @@ namespace Sacados {
         public virtual new T ItemStack { get => (T)base.Get(); set => base.Set(value); }
 
         // User implementation
-        public virtual uint GetMaxStackSize(T itemStack) => base.GetMaxStackSize(itemStack);
+        public virtual uint GetMaximumSpace(T itemStack) => base.GetMaximumSpace(itemStack);
 
         public virtual void Give(T itemStack) => base.Give(itemStack);
         public virtual void Take(T itemStack) => base.Take(itemStack);
@@ -32,8 +32,8 @@ namespace Sacados {
             else if (itemStack is T otherItemStack) ItemStack = otherItemStack;
 
         }
-        public sealed override uint GetMaxStackSize(ItemStack itemStack)
-            => itemStack == null ? GetMaxStackSize(null) : itemStack is T otherItemStack ? GetMaxStackSize(otherItemStack) : 0;
+        public sealed override uint GetMaximumSpace(ItemStack itemStack)
+            => itemStack == null ? GetMaximumSpace(null) : itemStack is T otherItemStack ? GetMaximumSpace(otherItemStack) : 0;
 
         public sealed override void Give(ItemStack itemStack) {
             if (itemStack is T otherItemStack)
@@ -73,7 +73,7 @@ namespace Sacados {
             this.maxStackSize = maxStackSize;
         }
 
-        public virtual uint GetMaxStackSize(ItemStack itemStack) => maxStackSize == 0 && !itemStack.IsEmpty() ? itemStack.Item.MaxStackSize : maxStackSize;
+        public virtual uint GetMaximumSpace(ItemStack itemStack) => maxStackSize == 0 && !itemStack.IsEmpty() ? itemStack.Item.MaxStackSize : maxStackSize;
 
         // Can't override this and have at the same time new T ItemStack
         // => To go around this issue, just use two methods for the property
@@ -92,7 +92,7 @@ namespace Sacados {
             else {
 
                 // Transfer the maximum stack size (don't forget to clone the original stack)
-                uint transfer = Math.Min(GetMaxStackSize(itemStack), itemStack.StackSize);
+                uint transfer = Math.Min(GetMaximumSpace(itemStack), itemStack.StackSize);
                 ItemStack stack = itemStack.Clone();
                 stack.StackSize = transfer;
                 itemStack.StackSize -= transfer;

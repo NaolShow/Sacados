@@ -32,7 +32,7 @@ namespace Sacados {
             bool isEmpty = value.IsEmpty();
             writer.WriteValueSafe(isEmpty ? null : value.Item);
 
-            // If the ItemStack is not empty then serialize it's data
+            // If the ItemStack is not empty then serialize its data
             if (!isEmpty) value.Serialize(writer);
 
         }
@@ -47,7 +47,7 @@ namespace Sacados {
             // If the ItemStack is empty then return null
             reader.ReadValueSafe(out Item item);
             if (item == null) value = null;
-            // If the ItemStack isn't empty then return it with it's deserialized data
+            // If the ItemStack isn't empty then return it with its deserialized data
             else {
                 value = item.CreateItemStack();
                 value.Deserialize(reader);

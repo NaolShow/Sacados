@@ -3,7 +3,7 @@
 namespace Sacados {
 
     /// <inheritdoc cref="IContainer"/>
-    /// <typeparam name="T">Type of <see cref="ItemStack{T}"/></typeparam>
+    /// <typeparam name="T">Type of <see cref="ItemStack"/></typeparam>
     public interface IContainer<T> : IContainer, IStackContainer<T> where T : ItemStack {
 
         /// <inheritdoc cref="IContainer.this"/>
@@ -20,13 +20,13 @@ namespace Sacados {
     public interface IContainer : IStackContainer {
 
         /// <summary>
-        /// Determines the number of <see cref="ISlot"/> in the <see cref="IContainer"/>
+        /// Determines the amount of <see cref="ISlot"/> present in the <see cref="IContainer"/>
         /// </summary>
         int SlotsCount { get; }
 
         /// <summary>
         /// Accessor to the <see cref="ItemStack"/> at the specified index in the <see cref="IContainer"/><br/>
-        /// Setting the <see cref="ItemStack"/> through this property doesn't make any validation with it's <see cref="ISlot"/>
+        /// Setting the <see cref="ItemStack"/> through this property doesn't make any validation with its <see cref="ISlot"/>
         /// </summary>
         /// <param name="i">The i-th position of the <see cref="ItemStack"/></param>
         /// <returns>The <see cref="ItemStack"/> at the specified index</returns>
@@ -40,7 +40,7 @@ namespace Sacados {
         ISlot Get(int index);
 
         /// <summary>
-        /// Called when any operations about <see cref="ItemStack"/> occurs on the <see cref="IContainer"/>
+        /// Called when any operations about <see cref="ItemStack"/> occurs in the <see cref="IContainer"/>
         /// </summary>
         event OnContainerUpdateDelegate OnUpdate;
         delegate void OnContainerUpdateDelegate(ContainerEventType type, int index);
