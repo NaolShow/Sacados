@@ -43,10 +43,10 @@
 
                 // If the slot's ItemStack is empty then it's the max stack size
                 if (slotItemStack.IsEmpty())
-                    space = slot.GetMaxStackSize(itemStack);
+                    space = slot.GetMaximumSpace(itemStack);
                 // If the ItemStacks are the same then it's the max stack size decreased by the current stack size
                 else if (slotItemStack.IsSameAs(itemStack))
-                    space = slot.GetMaxStackSize(itemStack) - slotItemStack.StackSize;
+                    space = slot.GetMaximumSpace(itemStack) - slotItemStack.StackSize;
 
             }
             return space;
