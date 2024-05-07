@@ -31,7 +31,7 @@ namespace Sacados {
         /// Called when any operations about <see cref="ItemStack"/> occurs in the <see cref="IContainer"/>
         /// </summary>
         event OnContainerUpdateDelegate OnUpdate;
-        delegate void OnContainerUpdateDelegate(ContainerEventType type, int index);
+        delegate void OnContainerUpdateDelegate(ContainerEventType type, ItemStack oldItemStack, int index);
 
         /// <summary>
         /// Called when the <see cref="IContainer"/> started and is now ready to be used

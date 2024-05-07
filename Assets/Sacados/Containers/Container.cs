@@ -28,8 +28,8 @@ namespace Sacados {
         protected virtual void Awake() => itemStacks.OnListChanged += InternalOnListChanged;
 
         /// <inheritdoc cref="IContainer.OnUpdate"/>
-        protected virtual void OnContainerUpdate(ContainerEventType type, int index) => OnUpdate?.Invoke(type, index);
-        private void InternalOnListChanged(NetworkListEvent<ItemStack> e) => OnContainerUpdate(e.ToContainerEventType(), e.Index);
+        protected virtual void OnContainerUpdate(ContainerEventType type, ItemStack oldItemStack, int index) => OnUpdate?.Invoke(type, oldItemStack, index);
+        private void InternalOnListChanged(NetworkListEvent<ItemStack> e) => OnContainerUpdate(e.ToContainerEventType(), e.PreviousValue, e.Index);
 
         #endregion
 
