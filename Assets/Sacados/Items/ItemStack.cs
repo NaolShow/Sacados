@@ -3,7 +3,7 @@
 namespace Sacados {
 
     /// <summary>
-    /// Represents an <see cref="Item"/> instance that have a <see cref="StackSize"/> and other personal values
+    /// Represents individual data about an <see cref="Sacados.Item"/>
     /// </summary>
     public class ItemStack {
 
@@ -84,6 +84,9 @@ namespace Sacados {
         public virtual void Deserialize(FastBufferReader reader) {
             reader.ReadValueSafe(out stackSize);
         }
+
+        private const string empty = "Empty";
+        public override string ToString() => this.IsEmpty() ? empty : $"{Item.ID}x{StackSize}";
 
     }
 

@@ -26,8 +26,6 @@ namespace Sacados {
 
         public virtual uint GetMaximumSpace(ItemStack itemStack) => maxStackSize == 0 && !itemStack.IsEmpty() ? itemStack.Item.MaxStackSize : maxStackSize;
 
-        // Can't override this and have at the same time new T ItemStack
-        // => To go around this issue, just use two methods for the property
         public virtual ItemStack ItemStack {
             get => container[Index]; set {
 
@@ -70,8 +68,10 @@ namespace Sacados {
                 // Transfer the maximum stack size
                 uint toTransfer = Math.Min(itemStack.StackSize, space);
                 itemStack.StackSize -= toTransfer;
-                slotItemStack.StackSize += toTransfer;
-                MarkDirty();
+
+                ItemStack newItemStack = slotItemStack.Clone();
+                newItemStack.StackSize += toTransfer;
+                container[Index] = newItemStack;
 
             }
 
@@ -89,8 +89,10 @@ namespace Sacados {
             // Transfer the maximum stacksize
             uint toTransfer = Math.Min(itemStack.StackSize, ItemStack.StackSize);
             itemStack.StackSize -= toTransfer;
-            ItemStack.StackSize -= toTransfer;
-            MarkDirty();
+
+            ItemStack newItemStack = ItemStack.Clone();
+            newItemStack.StackSize -= toTransfer;
+            container[Index] = newItemStack;
 
         }
 
