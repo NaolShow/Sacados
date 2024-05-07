@@ -5,38 +5,6 @@ using static Sacados.IContainer;
 
 namespace Sacados {
 
-    /// <inheritdoc cref="Container"/>
-    /// <typeparam name="T">Type of <see cref="ItemStack{T}"/></typeparam>
-    public abstract class Container<T> : Container, IContainer<T> where T : ItemStack {
-
-        public new ISlot<T> Get(int index) => (ISlot<T>)base.Get(index);
-        public new T this[int i] { get => (T)base[i]; set => base[i] = value; }
-
-        // User implementation
-        public abstract void Give(T itemStack);
-        public abstract void Take(T itemStack);
-
-        // By default accept to give and take any ItemStack
-        public virtual bool CanBeGiven(T itemStack) => true;
-        public virtual bool CanBeTaken(T itemStack) => true;
-
-        // Converts the ItemStack to T and call the new methods
-        public sealed override void Give(ItemStack itemStack) {
-            if (itemStack is T otherItemStack)
-                Give(otherItemStack);
-        }
-        public sealed override void Take(ItemStack itemStack) {
-            if (itemStack is T otherItemStack)
-                Take(otherItemStack);
-        }
-
-        public sealed override bool CanBeGiven(ItemStack itemStack)
-            => itemStack == null ? CanBeGiven(null) : itemStack is T otherItemStack && CanBeGiven(otherItemStack);
-        public sealed override bool CanBeTaken(ItemStack itemStack)
-            => itemStack == null ? CanBeGiven(null) : itemStack is T otherItemStack && CanBeTaken(otherItemStack);
-
-    }
-
     /// <summary>
     /// Basic implementation of <see cref="IContainer"/>
     /// </summary>

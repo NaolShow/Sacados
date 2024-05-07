@@ -2,18 +2,6 @@
 
 namespace Sacados {
 
-    /// <inheritdoc cref="IContainer"/>
-    /// <typeparam name="T">Type of <see cref="ItemStack"/></typeparam>
-    public interface IContainer<T> : IContainer, IStackContainer<T> where T : ItemStack {
-
-        /// <inheritdoc cref="IContainer.this"/>
-        new T this[int i] { get; set; }
-
-        /// <inheritdoc cref="IContainer.Get(int)"/>
-        new ISlot<T> Get(int index);
-
-    }
-
     /// <summary>
     /// Represents a <see cref="IContainer"/> that contains multiple <see cref="ISlot"/> and <see cref="ItemStack"/>
     /// </summary>

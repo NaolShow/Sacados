@@ -1,21 +1,5 @@
 ﻿namespace Sacados {
 
-    /// <inheritdoc cref="IStackContainer"/>
-    /// <typeparam name="T">Type of <see cref="ItemStack"/></typeparam>
-    public interface IStackContainer<T> where T : ItemStack {
-
-        /// <inheritdoc cref="IStackContainer.Give(ItemStack)"/>
-        void Give(T itemStack);
-        /// <inheritdoc cref="IStackContainer.Take(ItemStack)"/>
-        void Take(T itemStack);
-
-        /// <inheritdoc cref="IStackContainer.CanBeGiven(ItemStack)"/>
-        bool CanBeGiven(T itemStack);
-        /// <inheritdoc cref="IStackContainer.CanBeTaken(ItemStack)"/>
-        bool CanBeTaken(T itemStack);
-
-    }
-
     /// <summary>
     /// Represents a <see cref="IStackContainer"/> that contains one or multiple <see cref="ItemStack"/>
     /// </summary>
