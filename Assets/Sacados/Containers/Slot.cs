@@ -97,10 +97,7 @@ namespace Sacados {
         }
 
         public virtual void Clear() => ItemStack = null;
-
-        // Mark the slot as dirty by just setting back it's itemstack to the same value
-        // TODO: Maybe put this in the ISlot interface so that we can update it from outside?
-        protected void MarkDirty() => container[Index] = ItemStack;
+        public void Synchronize() => container[Index] = ItemStack;
 
     }
 

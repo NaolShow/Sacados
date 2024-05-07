@@ -24,6 +24,11 @@
         /// <returns>The max stack size of the <see cref="Sacados.ItemStack"/> that the <see cref="ISlot"/> accepts</returns>
         uint GetMaximumSpace(ItemStack itemStack);
 
+        /// <summary>
+        /// Synchronizes the <see cref="ISlot"/> content over the network (useful in case some <see cref="ItemStack"/>'s values have changed)
+        /// </summary>
+        void Synchronize();
+
     }
 
 }
