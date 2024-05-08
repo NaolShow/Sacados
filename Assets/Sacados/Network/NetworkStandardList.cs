@@ -18,13 +18,13 @@ namespace Unity.Netcode {
     /// </summary>
     /// <typeparam name="TOriginal">Original type of the objet (will be store with this one)</typeparam>
     /// <typeparam name="TCast">Cast type of the object (will be serialized with this one)</typeparam>
-    public class NetworkStandardList<TOriginal, TCast> : NetworkVariableBase, IList<TOriginal>, ICollection<TOriginal>, IEnumerable<TOriginal>, IReadOnlyCollection<TOriginal>, IReadOnlyList<TOriginal>
+    public class NetworkStandardList<TOriginal, TCast> : NetworkVariableBase, IList<TOriginal>, IReadOnlyList<TOriginal>
         where TOriginal : TCast, new() {
 
-        private List<TOriginal> list;
+        private readonly List<TOriginal> list;
         // TODO: More optimized way use a dictionnary
         // => Overwrite changes to that index to not send multiple events
-        private List<NetworkListEvent<TOriginal>> dirtyEvents;
+        private readonly List<NetworkListEvent<TOriginal>> dirtyEvents;
 
         /// <summary>
         /// Delegate type for list changed event

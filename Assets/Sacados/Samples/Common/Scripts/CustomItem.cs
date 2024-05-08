@@ -6,7 +6,7 @@ namespace Sacados.Sample {
     /// <summary>
     /// Represents a custom <see cref="ItemStack"/>
     /// </summary>
-    public class CustomItemStack : ItemStack<CustomItem> {
+    public class CustomItemStack : ItemStack {
 
         /// <summary>
         /// Represents the <see cref="CustomItemStack"/> durability

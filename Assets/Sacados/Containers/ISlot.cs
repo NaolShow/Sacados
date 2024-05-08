@@ -1,17 +1,5 @@
 ﻿namespace Sacados {
 
-    /// <inheritdoc cref="ISlot"/>
-    /// <typeparam name="T">Type of <see cref="Sacados.ItemStack"/></typeparam>
-    public interface ISlot<T> : ISlot, IStackContainer<T> where T : ItemStack {
-
-        /// <inheritdoc cref="ISlot.ItemStack"/>
-        new T ItemStack { get; set; }
-
-        /// <inheritdoc cref="ISlot.GetMaximumSpace(ItemStack)"/>
-        uint GetMaximumSpace(T itemStack);
-
-    }
-
     /// <summary>
     /// Represents a <see cref="ISlot"/> that contains a single <see cref="Sacados.ItemStack"/>
     /// </summary>
@@ -35,6 +23,11 @@
         /// <param name="itemStack">The <see cref="Sacados.ItemStack"/> that could be given to the <see cref="ISlot"/></param>
         /// <returns>The max stack size of the <see cref="Sacados.ItemStack"/> that the <see cref="ISlot"/> accepts</returns>
         uint GetMaximumSpace(ItemStack itemStack);
+
+        /// <summary>
+        /// Synchronizes the <see cref="ISlot"/> content over the network (useful in case some <see cref="ItemStack"/>'s values have changed)
+        /// </summary>
+        void Synchronize();
 
     }
 

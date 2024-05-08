@@ -1,0 +1,47 @@
+﻿using UnityEngine;
+
+namespace Sacados.Samples {
+
+    /// <summary>
+    /// Fixed size <see cref="IContainer"/> with fixed number of <see cref="ISlot"/>
+    /// </summary>
+    public class FixedSizeContainer : Container {
+
+        [SerializeField] private int slotsCount;
+
+        public override void OnNetworkSpawn() {
+
+            // By default add slots count slots
+            for (int i = 0; i < slotsCount; i++) AddSlot(new Slot(this, i));
+
+            base.OnNetworkSpawn();
+
+        }
+
+        public override void Give(ItemStack itemStack) {
+
+            // Give to the slots until we reach the end of the container or we gave everything
+            int i = 0;
+            while (i < SlotsCount && itemStack.StackSize > 0)
+                Get(i++).Give(itemStack);
+
+        }
+
+        public override void Take(ItemStack itemStack) {
+
+            // Take from the slots until we reach the end of the container or we gave everything
+            int i = 0;
+            while (i < SlotsCount && itemStack.StackSize > 0)
+                Get(i++).Take(itemStack);
+
+        }
+
+        public override void Clear() {
+            for (int i = 0; i < SlotsCount; i++)
+                Get(i).Clear();
+
+        }
+
+    }
+
+}

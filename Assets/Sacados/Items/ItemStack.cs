@@ -3,35 +3,7 @@
 namespace Sacados {
 
     /// <summary>
-    /// Represents individual data about <see cref="{T}"/>
-    /// </summary>
-    /// <typeparam name="T"><see cref="Sacados.Item"/> that the <see cref="ItemStack"/> stores</typeparam>
-    public abstract class ItemStack<T> : ItemStack where T : Item {
-
-        /// <summary>
-        /// Represents the <see cref="{T}"/> of the <see cref="ItemStack{T}"/>
-        /// </summary>
-        public new T Item { get => (T)GetItem(); set => SetItem(value); }
-
-        protected override void SetItem(Item itemStack) {
-            if (itemStack is T)
-                base.SetItem(itemStack);
-        }
-
-        #region Constructors
-
-        /// <inheritdoc cref="ItemStack(Item)"/>
-        public ItemStack(T item) : base(item) { }
-
-        /// <inheritdoc cref="ItemStack(ItemStack)"/>
-        public ItemStack(ItemStack original) : base(original) { }
-
-        #endregion
-
-    }
-
-    /// <summary>
-    /// Represents an <see cref="Item"/> instance that have a <see cref="StackSize"/> and other personal values
+    /// Represents individual data about an <see cref="Sacados.Item"/>
     /// </summary>
     public class ItemStack {
 
@@ -112,6 +84,9 @@ namespace Sacados {
         public virtual void Deserialize(FastBufferReader reader) {
             reader.ReadValueSafe(out stackSize);
         }
+
+        private const string empty = "Empty";
+        public override string ToString() => this.IsEmpty() ? empty : $"{Item.ID}x{StackSize}";
 
     }
 

@@ -1,7 +1,7 @@
 ﻿namespace Sacados {
 
     /// <summary>
-    /// Represents a <see cref="IContainerUI"/> that will handle the display of <see cref="ISlotUI"/>
+    /// Represents a <see cref="IContainerUI"/> that will handle the display of an <see cref="IContainer"/>
     /// </summary>
     public interface IContainerUI {
 
