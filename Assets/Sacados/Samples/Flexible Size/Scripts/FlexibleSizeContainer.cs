@@ -16,7 +16,7 @@
                     case ContainerEventType.Clear: ClearSlots(); break;
                     // If we joined the server then create all the slots directly
                     case ContainerEventType.Full:
-                        for (int i = 0; i < SlotsCount; i++)
+                        for (int i = 0; i < Size; i++)
                             AddSlot(new Slot(this, i));
                         break;
                 }
@@ -37,16 +37,16 @@
             while (itemStack.StackSize > 0) {
 
                 // If there is no more room for this ItemStack then create a new slot
-                if (SlotsCount == i) AddSlot(new Slot(this, i));
-                Get(i++).Give(itemStack);
+                if (Size == i) AddSlot(new Slot(this, i));
+                GetSlot(i++).Give(itemStack);
 
             }
         }
 
         public override void Take(ItemStack itemStack) {
-            int i = SlotsCount; // or (int i = 0)
+            int i = Size; // or (int i = 0)
             while (itemStack.StackSize > 0 && --i >= 0) // or (itemStack.StackSize > 0 && i < SlotsCount)
-                Get(i).Take(itemStack);
+                GetSlot(i).Take(itemStack);
         }
 
         public override void Clear() => ClearSlots();

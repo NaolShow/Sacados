@@ -10,9 +10,9 @@ namespace Sacados {
     /// </summary>
     public abstract class Container : NetworkBehaviour, IContainer {
 
-        public int SlotsCount => itemStacks.Count;
+        public int Size => itemStacks.Count;
         private readonly List<ISlot> slots = new List<ISlot>();
-        public ISlot Get(int index) => slots[index];
+        public ISlot GetSlot(int index) => slots[index];
 
         public ItemStack this[int i] { get => itemStacks[i]; set => itemStacks[i] = value; }
         private readonly NetworkStandardList<ItemStack> itemStacks = new NetworkStandardList<ItemStack>();

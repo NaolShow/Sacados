@@ -22,8 +22,8 @@ namespace Sacados.Samples {
 
             // Give to the slots until we reach the end of the container or we gave everything
             int i = 0;
-            while (i < SlotsCount && itemStack.StackSize > 0)
-                Get(i++).Give(itemStack);
+            while (i < Size && itemStack.StackSize > 0)
+                GetSlot(i++).Give(itemStack);
 
         }
 
@@ -31,14 +31,14 @@ namespace Sacados.Samples {
 
             // Take from the slots until we reach the end of the container or we gave everything
             int i = 0;
-            while (i < SlotsCount && itemStack.StackSize > 0)
-                Get(i++).Take(itemStack);
+            while (i < Size && itemStack.StackSize > 0)
+                GetSlot(i++).Take(itemStack);
 
         }
 
         public override void Clear() {
-            for (int i = 0; i < SlotsCount; i++)
-                Get(i).Clear();
+            for (int i = 0; i < Size; i++)
+                GetSlot(i).Clear();
 
         }
 

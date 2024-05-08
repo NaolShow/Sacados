@@ -15,8 +15,8 @@
 
             ulong count = 0;
             if (container.CanBeTaken(itemStack))
-                for (int i = 0; i < container.SlotsCount; i++)
-                    count += container.Get(i).GetCount(itemStack);
+                for (int i = 0; i < container.Size; i++)
+                    count += container.GetSlot(i).GetCount(itemStack);
             return count;
 
         }
@@ -31,8 +31,8 @@
 
             ulong count = 0;
             if (container.CanBeGiven(itemStack))
-                for (int i = 0; i < container.SlotsCount; i++)
-                    count += container.Get(i).GetSpace(itemStack);
+                for (int i = 0; i < container.Size; i++)
+                    count += container.GetSlot(i).GetSpace(itemStack);
             return count;
 
         }

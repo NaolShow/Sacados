@@ -8,9 +8,9 @@ namespace Sacados {
     public interface IContainer : IStackContainer {
 
         /// <summary>
-        /// Determines the amount of <see cref="ISlot"/> present in the <see cref="IContainer"/>
+        /// Determines the size of the <see cref="IContainer"/> (amount of <see cref="ISlot"/>)
         /// </summary>
-        int SlotsCount { get; }
+        int Size { get; }
 
         /// <summary>
         /// Accessor to the <see cref="ItemStack"/> at the specified index in the <see cref="IContainer"/><br/>
@@ -25,7 +25,7 @@ namespace Sacados {
         /// </summary>
         /// <param name="index">The index of the specified <see cref="ISlot"/></param>
         /// <returns>The <see cref="ISlot"/> at the specified index</returns>
-        ISlot Get(int index);
+        ISlot GetSlot(int index);
 
         /// <summary>
         /// Called when any operations about <see cref="ItemStack"/> occurs in the <see cref="IContainer"/>

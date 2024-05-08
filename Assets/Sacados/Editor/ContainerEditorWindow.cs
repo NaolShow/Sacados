@@ -112,16 +112,16 @@ namespace Sacados.Editor {
                 GUILayout.BeginVertical();
                 GUI.enabled = selectedSlot != null;
                 if (GUILayout.Button(giveToSlotText) && Item.TryGet(itemID, out Item item))
-                    container.Get((int)selectedSlot).Give(item.CreateItemStack(amount));
+                    container.GetSlot((int)selectedSlot).Give(item.CreateItemStack(amount));
                 if (GUILayout.Button(takeFromSlotText) && Item.TryGet(itemID, out item))
-                    container.Get((int)selectedSlot).Take(item.CreateItemStack(amount));
+                    container.GetSlot((int)selectedSlot).Take(item.CreateItemStack(amount));
                 GUILayout.EndVertical();
 
                 GUILayout.BeginVertical();
                 if (GUILayout.Button(setInSlotText) && Item.TryGet(itemID, out item))
-                    container.Get((int)selectedSlot).ItemStack = item.CreateItemStack(amount);
+                    container.GetSlot((int)selectedSlot).ItemStack = item.CreateItemStack(amount);
                 if (GUILayout.Button(clearSlotText))
-                    container.Get((int)selectedSlot).Clear();
+                    container.GetSlot((int)selectedSlot).Clear();
                 GUI.enabled = true;
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();
@@ -145,7 +145,7 @@ namespace Sacados.Editor {
             // Begin and save the scroll view position
             scrollPos = GUILayout.BeginScrollView(scrollPos);
 
-            for (int i = 0; i < container.SlotsCount; i++) {
+            for (int i = 0; i < container.Size; i++) {
 
                 ItemStack itemStack = container[i];
                 bool isEmpty = itemStack.IsEmpty();

@@ -87,7 +87,7 @@ namespace Sacados.Samples {
         protected virtual void BuildSlots() {
 
             // Loop through all the container's stacks and instantiate their slot ui
-            for (int i = 0; i < Container.SlotsCount; i++)
+            for (int i = 0; i < Container.Size; i++)
                 CreateSlot(i);
 
         }
