@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Sacados/Samples/Fixed Size/Minecraft Style.unity
+    guid: 6ed47a0d73382f648a2b14906767e112
+  - enabled: 1
+    path: Assets/Sacados/Samples/Flexible Size/Flexible Size.unity
+    guid: ac495a5440760c14585737f866f7d349
   m_configObjects: {}

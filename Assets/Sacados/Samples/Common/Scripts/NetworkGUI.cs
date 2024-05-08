@@ -19,7 +19,7 @@ namespace Sacados.Samples {
                 if (!NetworkManager.Singleton.IsServer)
                     GUILayout.Label(NetworkManager.Singleton.IsConnectedClient ? "Connected" : "Connecting");
                 if (GUILayout.Button("Shutdown"))
-                    NetworkManager.Singleton.Shutdown(true);
+                    NetworkManager.Singleton.Shutdown();
 
                 GUILayout.EndVertical();
 
