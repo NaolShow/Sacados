@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using UnityEditor;
 using UnityEngine;
 
@@ -7,14 +9,16 @@ namespace Sacados.Editor {
     [CustomEditor(typeof(Container), true)]
     public class ContainerInspector : UnityEditor.Editor {
 
+        private const string buttonText = "Open the Container Inspector";
+
         public override void OnInspectorGUI() {
-            base.OnInspectorGUI();
-
-            if (GUILayout.Button("Open the container's editor window"))
+            if (GUILayout.Button(buttonText))
                 ContainerEditorWindow.Open();
-
+            base.OnInspectorGUI();
         }
 
     }
 
 }
+
+#endif
