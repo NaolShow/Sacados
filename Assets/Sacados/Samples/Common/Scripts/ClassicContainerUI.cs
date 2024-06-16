@@ -9,10 +9,10 @@ namespace Sacados.Samples {
     /// </summary>
     public class ClassicContainerUI : MonoBehaviour, IContainerUI {
 
+        [field: SerializeField] protected Container Container { get; private set; }
         [field: SerializeField] protected Transform SlotsParent { get; private set; }
         [field: SerializeField] protected SlotUI SlotUIPrefab { get; private set; }
 
-        public IContainer Container { get; private set; }
         /// <summary>
         /// Contains all the created <see cref="ISlotUI"/>
         /// </summary>
@@ -21,14 +21,13 @@ namespace Sacados.Samples {
         public bool IsBuilt { get; private set; }
 
         protected virtual void Awake() {
-            Container = GetComponent<IContainer>();
-            Container.OnStarted += OnContainerStarted;
-            Container.OnStopped += OnContainerStopped;
+            Container.Storage.OnStarted += OnContainerStarted;
+            Container.Storage.OnStopped += OnContainerStopped;
         }
 
         protected virtual void OnDestroy() {
-            Container.OnStarted -= OnContainerStarted;
-            Container.OnStopped -= OnContainerStopped;
+            Container.Storage.OnStarted -= OnContainerStarted;
+            Container.Storage.OnStopped -= OnContainerStopped;
         }
 
         /// <inheritdoc cref="IContainer.OnStarted"/>
@@ -39,7 +38,6 @@ namespace Sacados.Samples {
         // If either the container is built before it is ready
         // Or the container is just flexible and can have runtime changes
         private void OnContainerUpdate(ContainerEventType type, ItemStack oldItemStack, int index) {
-
             switch (type) {
 
                 // Add, remove and clear the slots
@@ -47,7 +45,10 @@ namespace Sacados.Samples {
                 case ContainerEventType.Remove: RemoveSlot(index); break;
                 case ContainerEventType.Clear: UnbuildSlots(); break;
                 // Refresh the updated slot
-                case ContainerEventType.Value: Slots[index].Refresh(); break;
+                case ContainerEventType.Value:
+                    if (Container.Size > index)
+                        Slots[index].Refresh();
+                    break;
 
             }
         }
@@ -59,8 +60,9 @@ namespace Sacados.Samples {
             IsBuilt = true;
 
             // Build the slots and subscribe to the update event
-            BuildSlots();
-            Container.OnUpdate += OnContainerUpdate;
+            if (Container.Storage.IsReady)
+                BuildSlots();
+            Container.Storage.OnUpdate += OnContainerUpdate;
 
         }
 
@@ -72,7 +74,7 @@ namespace Sacados.Samples {
 
             // Unbuild the slots and unsubscribe from the update event
             UnbuildSlots();
-            Container.OnUpdate -= OnContainerUpdate;
+            Container.Storage.OnUpdate -= OnContainerUpdate;
 
         }
 

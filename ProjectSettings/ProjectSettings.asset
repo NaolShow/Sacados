@@ -641,7 +641,7 @@ PlayerSettings:
   webWasm2023: 0
   webEnableSubmoduleStrippingCompatibility: 0
   scriptingDefineSymbols:
-    Standalone: IS_CLIENT;IS_SERVER
+    Standalone: IS_CLIENT;IS_SERVER;FISHNET;FISHNET_V4;FISHNET_PRO;FISHNET_DISABLE_V3TOV4_HELPERS
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:

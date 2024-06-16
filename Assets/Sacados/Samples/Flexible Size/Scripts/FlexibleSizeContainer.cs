@@ -5,29 +5,34 @@
     /// </summary>
     public class FlexibleSizeContainer : Container {
 
-        protected override void OnContainerUpdate(ContainerEventType type, ItemStack oldItemStack, int index) {
+        protected override void Awake() {
+            base.Awake();
+            Storage.OnStarted += OnContainerStarted;
+            Storage.OnUpdate += OnContainerUpdate;
+        }
+
+        // If we joined the server then create all the slots directly
+        private void OnContainerStarted() {
+            if (Storage.IsReadOnly)
+                for (int i = 0; i < Size; i++)
+                    AddSlot(new Slot(this, i));
+        }
+
+        private void OnContainerUpdate(ContainerEventType type, ItemStack oldItemStack, int index) {
 
             // If we are not the server then we must sync the added/removed slots
-            if (!IsServer) {
+            if (Storage.IsReadOnly) {
 
                 switch (type) {
                     case ContainerEventType.Add: AddSlot(new Slot(this, index)); break;
                     case ContainerEventType.Remove: RemoveSlot(index); break;
                     case ContainerEventType.Clear: ClearSlots(); break;
-                    // If we joined the server then create all the slots directly
-                    case ContainerEventType.Full:
-                        for (int i = 0; i < Size; i++)
-                            AddSlot(new Slot(this, i));
-                        break;
                 }
 
             }
 
-            // Execute the on update event at the end
-            base.OnContainerUpdate(type, oldItemStack, index);
-
             // If the slot is now empty then remove it
-            if (IsServer && type == ContainerEventType.Value && this[index].IsEmpty())
+            if (!Storage.IsReadOnly && type == ContainerEventType.Value && this[index].IsEmpty())
                 RemoveSlot(index);
 
         }

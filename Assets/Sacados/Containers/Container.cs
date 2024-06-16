@@ -1,62 +1,25 @@
-using System;
 using System.Collections.Generic;
-using Unity.Netcode;
-using static Sacados.IContainer;
+using UnityEngine;
 
 namespace Sacados {
 
     /// <summary>
     /// Basic implementation of <see cref="IContainer"/>
     /// </summary>
-    public abstract class Container : NetworkBehaviour, IContainer {
+    public abstract class Container : MonoBehaviour, IContainer {
 
-        public int Size => itemStacks.Count;
+        public int Size => Storage.Count;
         private readonly List<ISlot> slots = new List<ISlot>();
         public ISlot GetSlot(int index) => slots[index];
 
-        public ItemStack this[int i] { get => itemStacks[i]; set => itemStacks[i] = value; }
-        private readonly NetworkStandardList<ItemStack> itemStacks = new NetworkStandardList<ItemStack>();
-
-        public event OnContainerUpdateDelegate OnUpdate;
-        public event Action OnStarted;
-        public event Action OnStopped;
-
-        #region Container Update
-
-        // Subscribe to the ItemStack's list changed event
-        // => Doesn't need to unsubscribe since the list lifetime = container's lifetime
-        protected virtual void Awake() => itemStacks.OnListChanged += InternalOnListChanged;
-
-        /// <inheritdoc cref="IContainer.OnUpdate"/>
-        protected virtual void OnContainerUpdate(ContainerEventType type, ItemStack oldItemStack, int index) => OnUpdate?.Invoke(type, oldItemStack, index);
-        private void InternalOnListChanged(NetworkListEvent<ItemStack> e) => OnContainerUpdate(e.ToContainerEventType(), e.PreviousValue, e.Index);
-
-        #endregion
-
-        public override void OnNetworkSpawn() {
-            base.OnNetworkSpawn();
-
-            // If we are the server and there is a different amount of slots than ItemStacks then add empty ItemStacks
-            if (IsServer && slots.Count != itemStacks.Count)
-                for (int i = 0; i < slots.Count; i++)
-                    itemStacks.Add(null);
-
-            // Call the on started event
-            OnStarted?.Invoke();
-
+        public ItemStack this[int i] {
+            get => Storage[i];
+            set => Storage[i] = value;
         }
 
-        public override void OnNetworkDespawn() {
-            base.OnNetworkDespawn();
-
-            // Clear the slots and the ItemStacks list (netcode doesn't clear it automatically)
-            ClearSlots();
-            itemStacks.Clear();
-
-            // Call the onstopped event
-            OnStopped?.Invoke();
-
-        }
+        // TODO: Editor extension to allow drag & drop of the interface
+        public IContainerStorage Storage { get; private set; }
+        protected virtual void Awake() => Storage = GetComponent<IContainerStorage>();
 
         #region Slots Management
 
@@ -69,7 +32,7 @@ namespace Sacados {
 
             // Insert the slot and also it's ItemStack if we are the server and spawned
             slots.Insert(slot.Index, slot);
-            if (IsSpawned && IsServer) itemStacks.Insert(slot.Index, itemStack?.Clone());
+            if (!Storage.IsReadOnly) Storage.Insert(slot.Index, itemStack?.Clone());
 
             // Reorder the slots indexes only if the added slot isn't at the end
             for (int i = slot.Index; i < slots.Count; i++)
@@ -85,7 +48,7 @@ namespace Sacados {
 
             // Remove the slot and also it's ItemStack if we are the server and spawned
             slots.RemoveAt(index);
-            if (IsSpawned && IsServer) itemStacks.RemoveAt(index);
+            if (!Storage.IsReadOnly) Storage.RemoveAt(index);
 
             // Reorder the slots indexes only if the removed slot isn't at the end
             for (int i = index; i < slots.Count; i++)
@@ -100,7 +63,7 @@ namespace Sacados {
 
             // Clear the slots and also the ItemStacks if we are the server and spawned
             slots.Clear();
-            if (IsSpawned && IsServer) itemStacks.Clear();
+            if (!Storage.IsReadOnly) Storage.Clear();
 
         }
 

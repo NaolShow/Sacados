@@ -1,4 +1,4 @@
-using Unity.Netcode;
+using FishNet.Serializing;
 using UnityEngine;
 
 namespace Sacados.Sample {
@@ -21,19 +21,19 @@ namespace Sacados.Sample {
             Durability = original.Durability;
         }
 
-        public override void Serialize(FastBufferWriter writer) {
+        public override void Serialize(Writer writer) {
             base.Serialize(writer);
 
             // Serialize the stack's durability
-            writer.WriteValueSafe(in durability);
+            writer.WriteUInt32(durability);
 
         }
 
-        public override void Deserialize(FastBufferReader reader) {
+        public override void Deserialize(Reader reader) {
             base.Deserialize(reader);
 
             // Deserialize the stack's durability
-            reader.ReadValueSafe(out durability);
+            durability = reader.ReadUInt32();
 
         }
 

@@ -1,4 +1,4 @@
-using Unity.Netcode;
+using FishNet.Serializing;
 
 namespace Sacados {
 
@@ -26,14 +26,15 @@ namespace Sacados {
         /// </summary>
         /// <param name="writer">The <see cref="FastBufferWriter"/> that will contain the <see cref="ItemStack"/></param>
         /// <param name="value">The <see cref="ItemStack"/> that will get written</param>
-        public static void WriteValueSafe(this FastBufferWriter writer, in ItemStack value) {
+        public static void WriteItemStack(this Writer writer, ItemStack itemStack) {
 
-            // If the ItemStack is empty then write an empty Item, else write the Item
-            bool isEmpty = value.IsEmpty();
-            writer.WriteValueSafe(isEmpty ? null : value.Item);
+            // If the ItemStack is empty do not write the Item's data
+            bool isEmpty = itemStack.IsEmpty();
+            writer.WriteItem(isEmpty ? null : itemStack.Item);
 
-            // If the ItemStack is not empty then serialize its data
-            if (!isEmpty) value.Serialize(writer);
+            // Otherwise write the ItemStack's data
+            if (!isEmpty)
+                itemStack.Serialize(writer);
 
         }
 
@@ -42,16 +43,16 @@ namespace Sacados {
         /// </summary>
         /// <param name="reader">The <see cref="FastBufferReader"/> that contains the <see cref="ItemStack"/></param>
         /// <param name="value">The <see cref="ItemStack"/> that got read</param>
-        public static void ReadValueSafe(this FastBufferReader reader, out ItemStack value) {
+        public static ItemStack ReadItemStack(this Reader reader) {
 
             // If the ItemStack is empty then return null
-            reader.ReadValueSafe(out Item item);
-            if (item == null) value = null;
-            // If the ItemStack isn't empty then return it with its deserialized data
-            else {
-                value = item.CreateItemStack();
-                value.Deserialize(reader);
-            }
+            Item item = reader.ReadItem();
+            if (item == null) return null;
+
+            // Otherwise create the corresponding ItemStack and read its data
+            ItemStack itemStack = item.CreateItemStack();
+            itemStack.Deserialize(reader);
+            return itemStack;
 
         }
 

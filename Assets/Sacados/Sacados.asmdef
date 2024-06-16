@@ -2,8 +2,8 @@
     "name": "Sacados",
     "rootNamespace": "",
     "references": [
-        "GUID:1491147abca9d7d4bb7105af628b223e",
-        "GUID:9d146c28fa5bae14f99c328bfcffeb9e"
+        "GUID:9d146c28fa5bae14f99c328bfcffeb9e",
+        "GUID:7c88a4a7926ee5145ad2dfa06f454c67"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

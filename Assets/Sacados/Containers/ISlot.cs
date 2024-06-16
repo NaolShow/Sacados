@@ -6,7 +6,7 @@
     public interface ISlot : IStackContainer {
 
         /// <summary>
-        /// Index of the <see cref="ISlot"/> and it's <see cref="Sacados.ItemStack"/>
+        /// Index of the <see cref="ISlot"/> and its <see cref="Sacados.ItemStack"/>
         /// </summary>
         public int Index { get; set; }
 

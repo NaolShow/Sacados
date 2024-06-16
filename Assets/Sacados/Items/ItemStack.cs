@@ -1,4 +1,4 @@
-﻿using Unity.Netcode;
+﻿using FishNet.Serializing;
 
 namespace Sacados {
 
@@ -73,16 +73,16 @@ namespace Sacados {
         /// Serializes the <see cref="ItemStack"/> into the specified <see cref="FastBufferWriter"/>
         /// </summary>
         /// <param name="writer">The <see cref="FastBufferWriter"/> that will contain the serialized <see cref="ItemStack"/></param>
-        public virtual void Serialize(FastBufferWriter writer) {
-            writer.WriteValueSafe(in stackSize);
+        public virtual void Serialize(Writer writer) {
+            writer.WriteUInt32(stackSize);
         }
 
         /// <summary>
         /// Deserializes an <see cref="ItemStack"/> from the specified <see cref="FastBufferReader"/>
         /// </summary>
         /// <param name="reader">The <see cref="FastBufferReader"/> that contains a serialized <see cref="ItemStack"/></param>
-        public virtual void Deserialize(FastBufferReader reader) {
-            reader.ReadValueSafe(out stackSize);
+        public virtual void Deserialize(Reader reader) {
+            stackSize = reader.ReadUInt32();
         }
 
         private const string empty = "Empty";

@@ -1,4 +1,4 @@
-﻿using Unity.Netcode;
+﻿using FishNet.Serializing;
 using UnityEngine;
 
 namespace Sacados {
@@ -13,13 +13,13 @@ namespace Sacados {
         /// </summary>
         /// <param name="writer">The <see cref="FastBufferWriter"/> that will contain the <see cref="Item"/></param>
         /// <param name="value">The <see cref="Item"/> that will get written</param>
-        public static void WriteValueSafe(this FastBufferWriter writer, in Item value) {
+        public static void WriteItem(this Writer writer, Item value) {
 
             // Write a boolean indicating if the Item is empty or not
-            writer.WriteValueSafe(value == null);
+            writer.WriteBoolean(value == null);
 
             // If the Item is not empty then write it's hashed id
-            if (value != null) writer.WriteValueSafe(value.HashedID);
+            if (value != null) writer.WriteUInt64(value.HashedID);
 
         }
 
@@ -28,20 +28,16 @@ namespace Sacados {
         /// </summary>
         /// <param name="reader">The <see cref="FastBufferReader"/> that contains the <see cref="Item"/></param>
         /// <param name="value">The <see cref="Item"/> that got read</param>
-        public static void ReadValueSafe(this FastBufferReader reader, out Item value) {
+        public static Item ReadItem(this Reader reader) {
 
-            // If the Item is empty then return null
-            reader.ReadValueSafe(out bool isEmpty);
-            if (isEmpty) value = null;
-            // If the Item is not null then read it's hashed id and return it from the registry
-            else {
-                reader.ReadValueSafe(out ulong id);
-                value = Item.Get(id);
+            // If there is no Item
+            if (reader.ReadBoolean()) return null;
 
-                // If the Item isn't registered on this side then log an error
-                if (value == null) Debug.LogError($"Trying to deserialize an {nameof(Item)} with the {nameof(Item.HashedID)} '{id}' while it is currently not registered");
-
-            }
+            // If the item couldn't not be found
+            ulong hashedID = reader.ReadUInt64();
+            if (!Item.TryGet(hashedID, out Item item))
+                Debug.LogWarning($"Trying to deserialize an {nameof(Item)} with hashedID='{hashedID}' and could not be found. Is there a registry mismatch between peers?");
+            return item;
 
         }
 
