@@ -1,4 +1,5 @@
-using Unity.Netcode;
+using FishNet;
+using FishNet.Managing;
 using UnityEngine;
 
 namespace Sacados.Samples {
@@ -8,18 +9,25 @@ namespace Sacados.Samples {
     /// </summary>
     public class NetworkGUI : MonoBehaviour {
 
+        private NetworkManager networkManager;
+
+        private void Start() {
+            networkManager = InstanceFinder.NetworkManager;
+        }
+
         private void OnGUI() {
 
-            // If we are connected to a server
-            if (NetworkManager.Singleton.IsClient || NetworkManager.Singleton.IsServer) {
+            // TODO: Rework
+            // => https://github.com/FirstGearGames/FishNet/blob/main/Assets/FishNet/Demos/Scripts/NetworkHudCanvases.cs
 
+            // If we are connected to a server
+            if (networkManager.IsClientStarted || networkManager.IsServerStarted) {
                 GUILayout.BeginVertical();
 
-                // Show the connection status "connected" or "connecting" and the shutdown button
-                if (!NetworkManager.Singleton.IsServer)
-                    GUILayout.Label(NetworkManager.Singleton.IsConnectedClient ? "Connected" : "Connecting");
-                if (GUILayout.Button("Shutdown"))
-                    NetworkManager.Singleton.Shutdown();
+                if (GUILayout.Button("Shutdown")) {
+                    networkManager.ServerManager.StopConnection(true);
+                    networkManager.ClientManager.StopConnection();
+                }
 
                 GUILayout.EndVertical();
 
@@ -28,10 +36,11 @@ namespace Sacados.Samples {
                 GUILayout.BeginHorizontal();
 
                 // Show the host and the connect button
-                if (GUILayout.Button("Host"))
-                    NetworkManager.Singleton.StartHost();
-                else if (GUILayout.Button("Client"))
-                    NetworkManager.Singleton.StartClient();
+                if (GUILayout.Button("Host")) {
+                    networkManager.ServerManager.StartConnection();
+                    networkManager.ClientManager.StartConnection();
+                } else if (GUILayout.Button("Client"))
+                    networkManager.ClientManager.StartConnection();
 
                 GUILayout.EndHorizontal();
 

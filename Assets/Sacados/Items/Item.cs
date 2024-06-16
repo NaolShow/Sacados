@@ -1,6 +1,5 @@
 ﻿using Hashing;
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 
 namespace Sacados {
@@ -12,20 +11,6 @@ namespace Sacados {
     [CreateAssetMenu(fileName = "New Item", menuName = "Sacados/Item")]
 #endif
     public class Item : ScriptableObject {
-
-        // This should get called automatically when registering any Item
-        static Item() {
-
-            // Register the serialization methods for the items and itemstacks
-            UserNetworkVariableSerialization<Item>.WriteValue = ItemNetworkExtensions.WriteValueSafe;
-            UserNetworkVariableSerialization<Item>.ReadValue = ItemNetworkExtensions.ReadValueSafe;
-            UserNetworkVariableSerialization<Item>.DuplicateValue = (in Item item, ref Item copyItem) => copyItem = item;
-
-            UserNetworkVariableSerialization<ItemStack>.WriteValue = ItemStackNetworkExtensions.WriteValueSafe;
-            UserNetworkVariableSerialization<ItemStack>.ReadValue = ItemStackNetworkExtensions.ReadValueSafe;
-            UserNetworkVariableSerialization<ItemStack>.DuplicateValue = (in ItemStack itemStack, ref ItemStack copyItemStack) => copyItemStack = itemStack;
-
-        }
 
         #region Registry
 

@@ -9,13 +9,12 @@ namespace Sacados.Samples {
 
         [SerializeField] private int slotsCount;
 
-        public override void OnNetworkSpawn() {
+        protected override void OnCommonStart() {
 
             // By default add slots count slots
             for (int i = 0; i < slotsCount; i++) AddSlot(new Slot(this, i));
 
-            base.OnNetworkSpawn();
-
+            base.OnCommonStart();
         }
 
         public override void Give(ItemStack itemStack) {
@@ -39,7 +38,6 @@ namespace Sacados.Samples {
         public override void Clear() {
             for (int i = 0; i < Size; i++)
                 GetSlot(i).Clear();
-
         }
 
     }

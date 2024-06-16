@@ -1,5 +1,5 @@
-﻿using System;
-using Unity.Netcode;
+﻿using FishNet.Object.Synchronizing;
+using System;
 
 namespace Sacados {
 
@@ -39,13 +39,13 @@ namespace Sacados {
         /// <summary>
         /// Converts a <see cref="NetworkListEvent{T}"/> into a <see cref="ContainerEventType"/>
         /// </summary>
-        public static ContainerEventType ToContainerEventType<T>(this NetworkListEvent<T> e) => e.Type switch {
-            NetworkListEvent<T>.EventType.Add or NetworkListEvent<T>.EventType.Insert => ContainerEventType.Add,
-            NetworkListEvent<T>.EventType.Remove or NetworkListEvent<T>.EventType.RemoveAt => ContainerEventType.Remove,
-            NetworkListEvent<T>.EventType.Value => ContainerEventType.Value,
-            NetworkListEvent<T>.EventType.Clear => ContainerEventType.Clear,
-            NetworkListEvent<T>.EventType.Full => ContainerEventType.Full,
-            _ => throw new ArgumentException($"{nameof(NetworkListEvent<T>)} cannot be converted to {nameof(ContainerEventType)} because it's {nameof(NetworkListEvent<T>.EventType)} is unknown"),
+        public static ContainerEventType ToContainerEventType(this SyncListOperation e) => e switch {
+            SyncListOperation.Add or SyncListOperation.Insert => ContainerEventType.Add,
+            SyncListOperation.RemoveAt => ContainerEventType.Remove,
+            SyncListOperation.Set => ContainerEventType.Value,
+            SyncListOperation.Clear => ContainerEventType.Clear,
+            SyncListOperation.Complete => ContainerEventType.Full,
+            _ => throw new ArgumentException($"{nameof(SyncListOperation)} cannot be converted to {nameof(ContainerEventType)} because it's value is unknown"),
         };
 
     }

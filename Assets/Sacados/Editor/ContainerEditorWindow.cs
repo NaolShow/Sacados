@@ -1,6 +1,7 @@
 ﻿#if UNITY_EDITOR
 
-using Unity.Netcode;
+using FishNet;
+using FishNet.Managing;
 using UnityEditor;
 using UnityEngine;
 
@@ -54,7 +55,7 @@ namespace Sacados.Editor {
             }
 
             // If the user is not a client and not a server (the network isn't started at all)
-            if (!NetworkManager.Singleton.IsServer && !NetworkManager.Singleton.IsClient) {
+            if (!InstanceFinder.NetworkManager.IsServerStarted && !InstanceFinder.NetworkManager.IsClientStarted) {
                 EditorGUILayout.HelpBox(mustBeConnected, MessageType.Info);
                 return;
             }
@@ -87,7 +88,8 @@ namespace Sacados.Editor {
 
         private void DisplayItemStacks() {
 #if IS_SERVER
-            bool isServer = NetworkManager.Singleton.IsServer || NetworkManager.Singleton.IsHost;
+            NetworkManager manager = InstanceFinder.NetworkManager;
+            bool isServer = manager.IsServerStarted;
 
             // If we are the server then display the container/slot management menu
             if (isServer) {

@@ -9,10 +9,10 @@ namespace Sacados.Samples {
     /// </summary>
     public class ClassicContainerUI : MonoBehaviour, IContainerUI {
 
+        [field: SerializeField] protected Container Container { get; private set; }
         [field: SerializeField] protected Transform SlotsParent { get; private set; }
         [field: SerializeField] protected SlotUI SlotUIPrefab { get; private set; }
 
-        public IContainer Container { get; private set; }
         /// <summary>
         /// Contains all the created <see cref="ISlotUI"/>
         /// </summary>
@@ -21,7 +21,6 @@ namespace Sacados.Samples {
         public bool IsBuilt { get; private set; }
 
         protected virtual void Awake() {
-            Container = GetComponent<IContainer>();
             Container.OnStarted += OnContainerStarted;
             Container.OnStopped += OnContainerStopped;
         }

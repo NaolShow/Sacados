@@ -8,7 +8,7 @@
         protected override void OnContainerUpdate(ContainerEventType type, ItemStack oldItemStack, int index) {
 
             // If we are not the server then we must sync the added/removed slots
-            if (!IsServer) {
+            if (!IsServerInitialized) {
 
                 switch (type) {
                     case ContainerEventType.Add: AddSlot(new Slot(this, index)); break;
@@ -27,7 +27,7 @@
             base.OnContainerUpdate(type, oldItemStack, index);
 
             // If the slot is now empty then remove it
-            if (IsServer && type == ContainerEventType.Value && this[index].IsEmpty())
+            if (IsServerInitialized && type == ContainerEventType.Value && this[index].IsEmpty())
                 RemoveSlot(index);
 
         }
