@@ -1,74 +1,35 @@
-using FishNet.Object;
-using FishNet.Object.Synchronizing;
-using System;
 using System.Collections.Generic;
-using static Sacados.IContainer;
+using UnityEngine;
 
 namespace Sacados {
+
+    /**
+     * Voir pour le forcing de l'ordre des updates
+     *  => Si le container est bien le premier à être appelé, et que faire si on veut pas que ça se propage?
+     * Voir si on peut supprimer l'event "full"
+     * Voir si on doit pas supprimer l'event "clear" en fin de vie du conteneur (si on stocke?)
+     * Voir comment stocker et reprendre une sauvegarde facilement => généralisable avec IList
+     * 
+     * Version avec Netcode d'Unity
+     **/
 
     /// <summary>
     /// Basic implementation of <see cref="IContainer"/>
     /// </summary>
-    public abstract class Container : NetworkBehaviour, IContainer {
+    public abstract class Container : MonoBehaviour, IContainer {
 
-        private bool done;
-
-        public int Size => itemStacks.Count;
+        public int Size => Storage.Count;
         private readonly List<ISlot> slots = new List<ISlot>();
         public ISlot GetSlot(int index) => slots[index];
 
         public ItemStack this[int i] {
-            get => itemStacks[i];
-            set => itemStacks[i] = value;
-        }
-        private readonly SyncList<ItemStack> itemStacks = new SyncList<ItemStack>();
-
-        public event OnContainerUpdateDelegate OnUpdate;
-        public event Action OnStarted;
-        public event Action OnStopped;
-
-        #region Container Update
-
-        /// <inheritdoc cref="IContainer.OnUpdate"/>
-        protected virtual void OnContainerUpdate(ContainerEventType type, ItemStack oldItemStack, int index) => OnUpdate?.Invoke(type, oldItemStack, index);
-        private void InternalOnItemStacksChanged(SyncListOperation operation, int index, ItemStack oldItemStack, ItemStack newItemStack, bool asServer) {
-
-            // If the container is now done initializing
-            if (!done && operation == SyncListOperation.Complete) done = true;
-            // If the container is not done creating
-            if (!done) return;
-
-            // Only call for the server side FIRST or for the client
-            if (IsClientOnlyInitialized || asServer)
-                OnContainerUpdate(operation.ToContainerEventType(), oldItemStack, index);
+            get => Storage[i];
+            set => Storage[i] = value;
         }
 
-        #endregion
-
-        public override void OnStartServer() => OnCommonStart();
-        public override void OnStartClient() {
-            // If we are not the server
-            if (!IsServerInitialized)
-                OnCommonStart();
-        }
-
-        public override void OnStopServer() => OnCommonStop();
-        public override void OnStopClient() {
-            if (!IsServerInitialized)
-                OnCommonStop();
-        }
-
-        protected virtual void OnCommonStart() {
-            OnStarted?.Invoke();
-            itemStacks.OnChange += InternalOnItemStacksChanged;
-        }
-
-        protected virtual void OnCommonStop() {
-            itemStacks.OnChange -= InternalOnItemStacksChanged;
-            OnStopped?.Invoke();
-            OnContainerUpdate(ContainerEventType.Clear, null, -1);
-            done = false;
-        }
+        // TODO: Editor extension to allow drag & drop of the interface
+        public IContainerStorage Storage { get; private set; }
+        protected virtual void Awake() => Storage = GetComponent<IContainerStorage>();
 
         #region Slots Management
 
@@ -81,7 +42,7 @@ namespace Sacados {
 
             // Insert the slot and also it's ItemStack if we are the server and spawned
             slots.Insert(slot.Index, slot);
-            if (IsSpawned && IsServerInitialized) itemStacks.Insert(slot.Index, itemStack?.Clone());
+            if (!Storage.IsReadOnly) Storage.Insert(slot.Index, itemStack?.Clone());
 
             // Reorder the slots indexes only if the added slot isn't at the end
             for (int i = slot.Index; i < slots.Count; i++)
@@ -97,7 +58,7 @@ namespace Sacados {
 
             // Remove the slot and also it's ItemStack if we are the server and spawned
             slots.RemoveAt(index);
-            if (IsSpawned && IsServerInitialized) itemStacks.RemoveAt(index);
+            if (!Storage.IsReadOnly) Storage.RemoveAt(index);
 
             // Reorder the slots indexes only if the removed slot isn't at the end
             for (int i = index; i < slots.Count; i++)
@@ -112,7 +73,7 @@ namespace Sacados {
 
             // Clear the slots and also the ItemStacks if we are the server and spawned
             slots.Clear();
-            if (IsSpawned && IsServerInitialized) itemStacks.Clear();
+            if (Storage.IsReadOnly) Storage.Clear();
 
         }
 

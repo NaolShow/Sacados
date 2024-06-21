@@ -1,7 +1,5 @@
 ﻿#if UNITY_EDITOR
 
-using FishNet;
-using FishNet.Managing;
 using UnityEditor;
 using UnityEngine;
 
@@ -54,15 +52,15 @@ namespace Sacados.Editor {
                 return;
             }
 
-            // If the user is not a client and not a server (the network isn't started at all)
-            if (!InstanceFinder.NetworkManager.IsServerStarted && !InstanceFinder.NetworkManager.IsClientStarted) {
-                EditorGUILayout.HelpBox(mustBeConnected, MessageType.Info);
-                return;
-            }
-
             // If there is no selected container or the selected object isn't a container
             if (Selection.activeGameObject == null || !Selection.activeGameObject.TryGetComponent(out Container container)) {
                 EditorGUILayout.HelpBox(mustSelectContainer, MessageType.Info);
+                return;
+            }
+
+            // If the user is not a client and not a server (the network isn't started at all)
+            if (!container.Storage.IsReady) {
+                EditorGUILayout.HelpBox(mustBeConnected, MessageType.Info);
                 return;
             }
 
@@ -71,8 +69,8 @@ namespace Sacados.Editor {
 
                 // Refresh the editor's UI if the container has been updated
                 if (this.container != null)
-                    this.container.OnUpdate -= OnContainerUpdate;
-                container.OnUpdate += OnContainerUpdate;
+                    this.container.Storage.OnUpdate -= OnContainerUpdate;
+                container.Storage.OnUpdate += OnContainerUpdate;
 
                 this.container = container;
                 selectedSlot = null;
@@ -88,11 +86,8 @@ namespace Sacados.Editor {
 
         private void DisplayItemStacks() {
 #if IS_SERVER
-            NetworkManager manager = InstanceFinder.NetworkManager;
-            bool isServer = manager.IsServerStarted;
-
             // If we are the server then display the container/slot management menu
-            if (isServer) {
+            if (!container.Storage.IsReadOnly) {
                 GUILayout.BeginHorizontal(GUI.skin.box);
 
                 GUILayout.BeginVertical();
@@ -155,7 +150,7 @@ namespace Sacados.Editor {
                 GUIStyle selectedBoxStyle = new GUIStyle(GUI.skin.box);
 #if IS_SERVER
                 // If we are the server and a slot is selected
-                if (isServer && selectedSlot == i) {
+                if (!container.Storage.IsReadOnly && selectedSlot == i) {
                     Texture2D texture = new Texture2D(1, 1);
                     texture.SetPixel(0, 0, Color.gray);
                     texture.Apply();
@@ -176,7 +171,7 @@ namespace Sacados.Editor {
 #if IS_SERVER
                 // If we are the server allow to slot's selection
                 Event currentEvent = Event.current;
-                if (isServer && currentEvent.type == EventType.MouseDown && GUILayoutUtility.GetLastRect().Contains(currentEvent.mousePosition)) {
+                if (!container.Storage.IsReadOnly && currentEvent.type == EventType.MouseDown && GUILayoutUtility.GetLastRect().Contains(currentEvent.mousePosition)) {
                     selectedSlot = i;
                     Repaint();
                 }

@@ -21,13 +21,13 @@ namespace Sacados.Samples {
         public bool IsBuilt { get; private set; }
 
         protected virtual void Awake() {
-            Container.OnStarted += OnContainerStarted;
-            Container.OnStopped += OnContainerStopped;
+            Container.Storage.OnStarted += OnContainerStarted;
+            Container.Storage.OnStopped += OnContainerStopped;
         }
 
         protected virtual void OnDestroy() {
-            Container.OnStarted -= OnContainerStarted;
-            Container.OnStopped -= OnContainerStopped;
+            Container.Storage.OnStarted -= OnContainerStarted;
+            Container.Storage.OnStopped -= OnContainerStopped;
         }
 
         /// <inheritdoc cref="IContainer.OnStarted"/>
@@ -59,7 +59,7 @@ namespace Sacados.Samples {
 
             // Build the slots and subscribe to the update event
             BuildSlots();
-            Container.OnUpdate += OnContainerUpdate;
+            Container.Storage.OnUpdate += OnContainerUpdate;
 
         }
 
@@ -71,7 +71,7 @@ namespace Sacados.Samples {
 
             // Unbuild the slots and unsubscribe from the update event
             UnbuildSlots();
-            Container.OnUpdate -= OnContainerUpdate;
+            Container.Storage.OnUpdate -= OnContainerUpdate;
 
         }
 

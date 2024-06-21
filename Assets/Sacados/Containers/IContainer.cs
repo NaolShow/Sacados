@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Sacados {
+﻿namespace Sacados {
 
     /// <summary>
     /// Represents a <see cref="IContainer"/> that contains multiple <see cref="ISlot"/> and <see cref="ItemStack"/>
@@ -27,21 +25,7 @@ namespace Sacados {
         /// <returns>The <see cref="ISlot"/> at the specified index</returns>
         ISlot GetSlot(int index);
 
-        /// <summary>
-        /// Called when any operations about <see cref="ItemStack"/> occurs in the <see cref="IContainer"/>
-        /// </summary>
-        event OnContainerUpdateDelegate OnUpdate;
-        delegate void OnContainerUpdateDelegate(ContainerEventType type, ItemStack oldItemStack, int index);
-
-        /// <summary>
-        /// Called when the <see cref="IContainer"/> started and is now ready to be used
-        /// </summary>
-        event Action OnStarted;
-        /// <summary>
-        /// Called when the <see cref="IContainer"/> stopped and is no longer ready to be used
-        /// </summary>
-        event Action OnStopped;
-
+        IContainerStorage Storage { get; }
 
     }
 

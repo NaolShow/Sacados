@@ -9,12 +9,14 @@ namespace Sacados.Samples {
 
         [SerializeField] private int slotsCount;
 
-        protected override void OnCommonStart() {
+        protected override void Awake() {
+            base.Awake();
+            Storage.OnStarted += Initialize;
+        }
 
+        private void Initialize() {
             // By default add slots count slots
             for (int i = 0; i < slotsCount; i++) AddSlot(new Slot(this, i));
-
-            base.OnCommonStart();
         }
 
         public override void Give(ItemStack itemStack) {
