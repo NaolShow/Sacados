@@ -15,13 +15,12 @@
         "**/Library": true,
         "**/ProjectSettings": true,
         "**/Temp": true,
-        "**/*.csproj": true,
         "**/Build": true,
         "**/Logs": true,
         "**/Packages": true,
         "**/obj": true,
         "**/UserSettings": true,
-        "**/*.sln": true,
         "**/.*": true
-    }
+    },
+    "dotnet.defaultSolution": "Sacados.sln"
 }
